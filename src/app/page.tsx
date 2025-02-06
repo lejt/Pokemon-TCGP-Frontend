@@ -2,37 +2,61 @@
 
 import { useState, useRef } from 'react';
 import { Drawer, DrawerContent } from '@/app/components/ui/drawer';
+import { useToast } from '@/app/components/ui/hooks/use-toast';
 import { LoginForm } from '@/app/components/LoginForm';
 import { useRouter } from 'next/navigation';
-import { isAuthUser, isExpiredToken } from './utils/auth';
+import { isAuthUser } from './utils/auth';
+import { useMutation } from '@tanstack/react-query';
 
 const LandingPage: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const lastUpdated = useRef(0);
   const router = useRouter();
+  const { toast } = useToast();
 
-  const handleClick = () => {
-    const isExpired = isExpiredToken();
-
-    if (!isExpired) {
-      isAuthUser().then((isAuthenticated) => {
+  const authenticateUser = useMutation({
+    mutationFn: async () => {
+      return await isAuthUser();
+    },
+    onSuccess: (isAuthenticated) => {
+      if (typeof isAuthenticated == 'undefined') {
+        toast({
+          title: 'Network is busy at the moment',
+          description: 'Please wait a few seconds before trying again',
+        });
+      } else {
         if (isAuthenticated) {
           router.push('/home');
+        } else {
+          toggleDrawer();
         }
-      });
-    } else {
-      const now = Date.now();
-      // all 1.5 seconds to pass before state update
-      if (now - lastUpdated.current >= 2000) {
-        setIsOpen((prevState) => !prevState);
-        lastUpdated.current = now;
       }
+    },
+  });
+
+  const toggleDrawer = () => {
+    const now = Date.now();
+    if (now - lastUpdated.current >= 2000) {
+      setIsOpen((prevState) => !prevState);
+      lastUpdated.current = now;
     }
+  };
+
+  const handleClick = () => {
+    authenticateUser.mutate();
   };
 
   const handleDrawerClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent the click inside the drawer from affecting the parent
   };
+
+  if (authenticateUser.isPending) {
+    return (
+      <div className="h-screen w-full bg-red-500 flex items-center justify-center">
+        <span className="text-2xl font-bold text-white">Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <div
