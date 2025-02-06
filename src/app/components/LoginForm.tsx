@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from '@/app/components/ui/input';
 import { Button } from '@/app/components/ui/button';
 import { Label } from '@/app/components/ui/label';
@@ -8,32 +10,71 @@ import {
   DrawerDescription,
   DrawerFooter,
 } from '@/app/components/ui/drawer';
+import { useActionState, useEffect } from 'react';
+import { signinUser } from '../utils/auth';
+import { useRouter } from 'next/navigation';
 
-export default function LoginForm() {
+const initialState = {
+  message: '',
+  accessToken: '',
+};
+
+export const LoginForm: React.FC = () => {
+  const router = useRouter();
+
+  const [state, formAction, pending] = useActionState(signinUser, initialState);
+
+  useEffect(() => {
+    if (state?.accessToken) {
+      router.push('/home');
+    }
+  }, [router, state]);
+
+  const enhancedFormAction = async (data: FormData) => {
+    formAction(data);
+  };
+
   return (
     <div className="p-8 space-y-4 h-screen w-screen w-1/2 flex-col justify-items-center">
-      <Card className="px-10 py-8 space-y-4 w-1/2 flex-col outline-2">
-        <DrawerHeader>
-          <DrawerTitle>Login</DrawerTitle>
-          <DrawerDescription>
-            Enter your credentials to continue.
-          </DrawerDescription>
-        </DrawerHeader>
+      <Card className="px-10 py-8 space-y-4 w-full max-w-[600px] flex-col outline-2">
+        <form action={enhancedFormAction}>
+          <DrawerHeader>
+            <DrawerTitle>Login</DrawerTitle>
+            <DrawerDescription>
+              Enter your credentials to continue.
+            </DrawerDescription>
+          </DrawerHeader>
 
-        <div className="space-y-2">
-          <Label htmlFor="username">Username</Label>
-          <Input id="username" placeholder="Enter username" />
-        </div>
+          <div className="space-y-2">
+            <Label htmlFor="username">Username</Label>
+            <Input
+              id="username"
+              name="username"
+              placeholder="Enter username"
+              required
+            />
+          </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" placeholder="Enter password" />
-        </div>
-
-        <DrawerFooter>
-          <Button className="w-full">Login</Button>
-        </DrawerFooter>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+          {state?.message && (
+            <p className="text-red-500 text-sm">{state.message}</p>
+          )}
+          <DrawerFooter>
+            <Button className="w-full" disabled={pending}>
+              {pending ? 'Logging in...' : 'Login'}
+            </Button>
+          </DrawerFooter>
+        </form>
       </Card>
     </div>
   );
-}
+};
