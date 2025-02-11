@@ -15,7 +15,7 @@ export default function RootLayout({
     <html>
       <body>
         <QueryClientProvider client={queryClient}>
-          {children}
+          <div className="flex justify-center">{children}</div>
           <Toaster />
         </QueryClientProvider>
       </body>

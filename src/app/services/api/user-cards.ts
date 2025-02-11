@@ -2,14 +2,29 @@ import { getBackEndHost } from '@/app/constants/constants';
 import { isAuthUser } from '@/app/utils/auth';
 import { getAuthToken } from '@/app/utils/local-storage';
 
+interface SortByProp {
+  field?: string;
+  order?: string;
+}
+
 export const userCardsApi = {
-  getUserCards: async () => {
+  getUserCards: async (sortBy?: SortByProp) => {
     const isUser = await isAuthUser();
     if (!isUser) return;
-    console.log('user valid');
+
     const token = getAuthToken();
 
-    const response = await fetch(`${getBackEndHost()}/users/me/cards`, {
+    let url = `${getBackEndHost()}/users/me/cards`;
+    if (sortBy && sortBy.field && sortBy.order) {
+      const queryParams = new URLSearchParams({
+        'sortBy[0][field]': sortBy.field,
+        'sortBy[0][order]': sortBy.order,
+      }).toString();
+
+      url += `?${queryParams}`;
+    }
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +40,6 @@ export const userCardsApi = {
           data.message || 'Failed to load cards from user. Try again later',
       };
     }
-    console.log(data);
     return data;
   },
 };

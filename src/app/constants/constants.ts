@@ -27,3 +27,11 @@ export const getBackEndHost = (): string => {
   const host = 'http://localhost:3001';
   return host;
 };
+
+export const CARDS_SORT_CATEGORY = {
+  CARD_COLLECTION_NUMBER: 'Card collection number',
+  RECENCY: 'Recency',
+  RARITY: 'Rarity',
+  DUPLICATES: 'Duplicates',
+  TYPES: 'Types',
+};

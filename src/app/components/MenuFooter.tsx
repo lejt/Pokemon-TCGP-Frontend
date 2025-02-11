@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {
   Menubar,
   MenubarMenu,
@@ -7,13 +8,17 @@ import {
 
 export const MenuFooter: React.FC = () => {
   return (
-    <Menubar className="absolute fixed bottom-0 w-full max-w-[600px] h-[100px] flex justify-evenly items-center">
+    <Menubar className="fixed bottom-0 min-w-[600px] border-none h-[100px] flex justify-evenly items-center bg-red-500">
       <MenubarMenu>
-        <MenubarTrigger>Home</MenubarTrigger>
+        <MenubarTrigger>
+          <Link href="/home">Home</Link>
+        </MenubarTrigger>
       </MenubarMenu>
       <MenubarSeparator />
       <MenubarMenu>
-        <MenubarTrigger>My Cards</MenubarTrigger>
+        <MenubarTrigger>
+          <Link href="/cards">My Cards</Link>
+        </MenubarTrigger>
       </MenubarMenu>
       <MenubarSeparator />
       <MenubarMenu>
