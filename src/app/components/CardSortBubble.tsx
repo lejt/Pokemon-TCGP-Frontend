@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Avatar, AvatarImage } from './ui/avatar';
 import CardsIcon from '../assets/images/cards-blank.svg';
 import UpArrowIcon from '../assets/images/arrow-small-up.svg';
@@ -23,7 +23,7 @@ import { CARDS_SORT_CATEGORY } from '../constants/constants';
 interface CardSortBubbleProps {
   className?: string;
   handleSort: (sortName: string) => void;
-  sortOrder: any;
+  sortOrder: { field: string; order: string } | null;
 }
 
 export const CardSortBubble: React.FC<CardSortBubbleProps> = ({
@@ -39,8 +39,6 @@ export const CardSortBubble: React.FC<CardSortBubbleProps> = ({
   } else {
     isUpArrow = true;
   }
-
-  const arrowDirection = order && order === 'ASC' ? 'up' : 'down';
 
   const SortOptionComponent = (name: string, svg: StaticImport) => {
     return (

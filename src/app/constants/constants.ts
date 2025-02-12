@@ -35,3 +35,11 @@ export const CARDS_SORT_CATEGORY = {
   DUPLICATES: 'Duplicates',
   TYPES: 'Types',
 };
+
+export const SortField = {
+  id: CARDS_SORT_CATEGORY.CARD_COLLECTION_NUMBER,
+  types: CARDS_SORT_CATEGORY.TYPES,
+  rarity: CARDS_SORT_CATEGORY.RARITY,
+  updatedAt: CARDS_SORT_CATEGORY.RECENCY,
+  quantity: CARDS_SORT_CATEGORY.DUPLICATES,
+};
