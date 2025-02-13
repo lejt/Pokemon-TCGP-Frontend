@@ -1,122 +1,126 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+// components/UserCardToAllCardComparison.tsx
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { cardsApi } from '../services/api/cards';
 import { Separator } from './ui/separator';
+import { useAllCards } from '../hooks/userCards';
+import { useRarityCounts } from '../hooks/cardSets';
+import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { groupCardsByCardSet } from '../utils/groupCardsByCardSet';
+import { calculateUserCardRarity } from '../utils/calculateRarity';
+import { useToast } from '@/app/components/ui/hooks/use-toast';
+import { CardSkeleton } from './CardSkeleton';
+import { CardComparisonSkeletons } from './CardComparisonSkeletons';
+import { Card, UserCard } from '../interfaces/entity.interface';
+import { Card as CardComponent } from './ui/card';
+import PokemonDiamondRarityIcon from '../assets/images/pokemon-diamond-rarity.svg';
+import PokemonStarRarityIcon from '../assets/images/pokemon-star-rarity.svg';
 
 interface UserCardToAllCardComparisonProps {
-  userCards?: any[];
+  userCards?: UserCard[];
 }
 
-// TODO: fill types
 export const UserCardToAllCardComparison: React.FC<
   UserCardToAllCardComparisonProps
-> = (props) => {
-  const { userCards } = props;
-  const [allCards, setAllCards] = useState<any[]>([]);
+> = ({ userCards = [] }) => {
+  const [allCards, setAllCards] = useState<Card[]>([]);
+  const { toast } = useToast();
+
+  const {
+    data: rarityCounts,
+    isLoading: isLoadingRarityCount,
+    error: errorinRarityFetch,
+  } = useRarityCounts();
 
   const {
     data: allCardsData,
-    isLoading,
+    isLoading: isLoadingAllCards,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery({
-    queryKey: ['allCards'],
-    queryFn: async ({ pageParam = 1 }) => {
-      return await cardsApi.getAllCards({ limit: 100, page: pageParam });
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      const nextPage = lastPage?.pagination?.nextPage;
-      const totalPages = lastPage?.pagination?.totalPages;
-      // TODO: still doesn't work for final page
-      if (!nextPage || nextPage >= totalPages) {
-        return undefined;
-      }
+  } = useAllCards();
 
-      return nextPage;
-    },
-  });
-
-  // TODO: still might not have page.data
   useEffect(() => {
     if (!allCardsData || !allCardsData.pages) return;
+    const newCards = allCardsData.pages.flatMap((page) => page?.data);
 
-    const newCards = allCardsData.pages.flatMap((page) => page.data);
-    setAllCards(newCards);
+    if (newCards) setAllCards(newCards);
   }, [allCardsData]);
 
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useInfiniteScroll(
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  );
+  const groupedAllCards = groupCardsByCardSet(allCards);
+  const userCardsRarityCount = calculateUserCardRarity(userCards);
 
-  const handleScroll = useCallback(() => {
-    if (bottomRef.current) {
-      const bottom =
-        bottomRef.current.getBoundingClientRect().bottom <=
-        window.innerHeight + 50;
-      if (bottom && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
-    }
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const showCardRarityCount = !isLoadingRarityCount;
+  const loadingFetches = isLoadingRarityCount || isLoadingAllCards;
 
-  // Set up scroll event listener
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
-
-  // Grouping allCards by card Set
-  const groupedAllCards = allCards?.reduce((acc, card) => {
-    const cardSetId = card.cardSet.id;
-    if (!acc[cardSetId]) {
-      acc[cardSetId] = {
-        cardSet: {
-          id: card.cardSet.id,
-          name: card.cardSet.name,
-          externalId: card.cardSet.externalId,
-          logo: card.cardSet.logo,
-        },
-        cards: [],
-      };
-    }
-    acc[cardSetId].cards.push(card);
-    return acc;
-  }, {} as { [key: string]: { cardSet: any; cards: any[] } });
+  if (errorinRarityFetch) {
+    toast({
+      title: rarityCounts.message,
+    });
+  }
 
   return (
     <>
+      {loadingFetches && <CardComparisonSkeletons />}
+
       {Object.entries(groupedAllCards).map(
         ([cardSetId, { cardSet, cards }]) => (
           <div key={cardSetId} className="flex flex-col items-center">
-            <Image
-              src={`${cardSet.logo}.png` ?? 'fallback-image-url'}
-              alt={cardSet.name ?? 'Card image'}
-              width={100}
-              height={50}
-            />
+            <div className="flex flex-col items-center">
+              <Image
+                src={`${cardSet.logo}.png`}
+                alt={cardSet.name ?? 'Card image'}
+                width={100}
+                height={50}
+              />
+
+              {showCardRarityCount && (
+                <div className="flex justify-center mt-4">
+                  <CardComponent className="px-2 flex justify-center items-center mr-4">
+                    <Image
+                      src={PokemonDiamondRarityIcon}
+                      alt="card number sort icon"
+                      width={10}
+                      height={10}
+                      className="mr-2"
+                    />
+                    {userCardsRarityCount[`${cardSet.name}`]?.diamondCount ?? 0}
+                    /{rarityCounts?.[`${cardSet.name}`]?.diamondCount ?? 0}
+                  </CardComponent>
+                  <CardComponent className="px-2 flex justify-center items-center">
+                    <Image
+                      src={PokemonStarRarityIcon}
+                      alt="card number sort icon"
+                      width={10}
+                      height={10}
+                      className="mr-2"
+                    />
+                    {userCardsRarityCount[`${cardSet.name}`]?.starCount ?? 0}/
+                    {rarityCounts?.[`${cardSet.name}`]?.starCount ?? 0}
+                  </CardComponent>
+                </div>
+              )}
+            </div>
+
             <Separator className="bg-black mt-3 h-1 mb-8" />
-            <div className="card-set grid grid-cols-3 gap-3 place-items-center mb-16">
+
+            <div className="grid grid-cols-3 gap-3 place-items-center mb-16">
               {cards?.map((card) => {
                 const userCard = userCards.find((uc) => uc.card.id === card.id);
 
-                if (userCard) {
-                  return (
-                    <div key={card.id}>
-                      <Image
-                        src={
-                          `${userCard.card.image}/low.png` ??
-                          'fallback-image-url'
-                        }
-                        alt={userCard.card.name ?? 'Card image'}
-                        width={200}
-                        height={300}
-                      />
-                    </div>
-                  );
-                }
-
-                return (
+                return userCard ? (
+                  <Image
+                    key={card.id}
+                    src={`${userCard.card.image}/low.png`}
+                    alt={userCard.card.name ?? 'Card image'}
+                    width={200}
+                    height={300}
+                  />
+                ) : (
                   <div
                     key={card.id}
                     className="h-[245px] w-[170px] bg-gray-300 rounded-xl flex justify-center items-center"
@@ -125,6 +129,9 @@ export const UserCardToAllCardComparison: React.FC<
                   </div>
                 );
               })}
+
+              {isFetchingNextPage &&
+                [...Array(6)].map((_, i) => <CardSkeleton key={i} />)}
             </div>
           </div>
         )

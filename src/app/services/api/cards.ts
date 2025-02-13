@@ -7,7 +7,7 @@ export const cardsApi = {
     const { page, limit } = paginationProp;
 
     const isUser = await isAuthUser();
-    if (!isUser) return;
+    if (!isUser) return { message: 'Unauthorized' };
 
     const token = getAuthToken();
 
@@ -32,5 +32,30 @@ export const cardsApi = {
     }
     return data;
   },
+
+  getRarityCountBasedOnCardSets: async () => {
+    const isUser = await isAuthUser();
+    if (!isUser) return { message: 'Unauthorized' };
+
+    const token = getAuthToken();
+
+    const response = await fetch(`${getBackEndHost()}/cards/rarity-count`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        message: data.message || 'Failed to get rarity counts. Try again later',
+      };
+    }
+    return data;
+  },
+
   // TODO: add generate pack api here
 };

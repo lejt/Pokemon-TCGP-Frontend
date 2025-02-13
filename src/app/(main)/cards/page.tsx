@@ -9,8 +9,9 @@ import { SortField } from '@/app/constants/constants';
 import { useMutation } from '@tanstack/react-query';
 import { CardPageHeader } from '@/app/components/CardPageHeader';
 import { CardOptions } from '@/app/components/CardOptions';
-import { Skeleton } from '@/app/components/ui/skeleton';
 import { UserCardToAllCardComparison } from '@/app/components/UserCardToAllCardComparison';
+import { CardSkeleton } from '@/app/components/CardSkeleton';
+import { UserCard } from '@/app/interfaces/entity.interface';
 
 export interface SortOrderProp {
   field: string;
@@ -18,11 +19,11 @@ export interface SortOrderProp {
 }
 
 const CardsPage: React.FC = () => {
-  // TODO: copy over interface for userCards from backend
-  const [userCards, setUserCards] = useState<any[]>([]);
+  const [userCards, setUserCards] = useState<UserCard[]>([]);
   const [sortOrder, setSortOrder] = useState<SortOrderProp | null>(null);
   const [toggleFetch, setToggleFetch] = useState<boolean>(false);
 
+  // TODO: may consider using useQuery instead since it is better for fetching while mutation is for modifying
   const fetchUserCards = useMutation({
     mutationFn: async () => {
       return await userCardsApi.getUserCards({
@@ -36,7 +37,9 @@ const CardsPage: React.FC = () => {
   });
 
   useEffect(() => {
-    fetchUserCards.mutate();
+    if (!fetchUserCards.isPending && !fetchUserCards.isSuccess) {
+      fetchUserCards.mutate();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
@@ -76,17 +79,13 @@ const CardsPage: React.FC = () => {
           <Card className="relative flex-grow grid grid-cols-3 gap-3 place-items-center p-3 overflow-auto mb-[150px] mt-5 z-2">
             {isLoadingCards &&
               // arbitrary amount of skeleton cards loading
-              [...Array(15)].map((e, i) => (
-                <div key={i}>
-                  <Skeleton className="h-[220px] w-[170px] rounded-xl" />
-                </div>
-              ))}
+              [...Array(15)].map((e, i) => <CardSkeleton key={i} />)}
 
             {isRenderingUserCards &&
               userCards.map((userCard, idx) => (
                 <Image
                   // TODO: find empty state card image
-                  src={`${userCard.card.image}/low.png` ?? 'fallback-image-url'}
+                  src={`${userCard.card.image}/low.png`}
                   alt={userCard.card.name ?? 'Card image'}
                   width={200}
                   height={300}

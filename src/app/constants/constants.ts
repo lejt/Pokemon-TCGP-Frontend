@@ -43,3 +43,28 @@ export const SortField = {
   updatedAt: CARDS_SORT_CATEGORY.RECENCY,
   quantity: CARDS_SORT_CATEGORY.DUPLICATES,
 };
+
+enum Rarity {
+  ONE_DIAMOND = 'One Diamond',
+  TWO_DIAMOND = 'Two Diamond',
+  THREE_DIAMOND = 'Three Diamond',
+  FOUR_DIAMOND = 'Four Diamond',
+  ONE_STAR = 'One Star',
+  TWO_STAR = 'Two Star',
+  THREE_STAR = 'Three Star',
+  CROWN = 'Crown',
+  NONE = 'None',
+}
+
+export const diamondRarities: string[] = [
+  Rarity.ONE_DIAMOND,
+  Rarity.TWO_DIAMOND,
+  Rarity.THREE_DIAMOND,
+  Rarity.FOUR_DIAMOND,
+];
+
+export const starRarities: string[] = [
+  Rarity.ONE_STAR,
+  Rarity.TWO_STAR,
+  Rarity.THREE_STAR,
+];

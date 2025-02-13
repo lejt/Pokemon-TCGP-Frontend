@@ -14,7 +14,7 @@ export const userCardsApi = {
 
     const token = getAuthToken();
 
-    let url = `${getBackEndHost()}/users/me/cards`;
+    let url = `${getBackEndHost()}/users/me/user-cards`;
     if (sortBy && sortBy.field && sortBy.order) {
       const queryParams = new URLSearchParams({
         'sortBy[0][field]': sortBy.field,

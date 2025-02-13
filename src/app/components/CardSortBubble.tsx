@@ -3,11 +3,11 @@ import { Avatar, AvatarImage } from './ui/avatar';
 import CardsIcon from '../assets/images/cards-blank.svg';
 import UpArrowIcon from '../assets/images/arrow-small-up.svg';
 import DownArrowIcon from '../assets/images/arrow-small-down.svg';
-import Hashtag from '../assets/images/hashtag.svg';
-import PokemonType from '../assets/images/pokemon-type.svg';
-import PokemonRarity from '../assets/images/pokemon-rarity.svg';
+import HashtagIcon from '../assets/images/hashtag.svg';
+import PokemonTypeIcon from '../assets/images/pokemon-type.svg';
+import PokemonRarityIcon from '../assets/images/pokemon-diamond-rarity.svg';
 import RecencyIcon from '../assets/images/recency-icon.svg';
-import PokemonDuplicate from '../assets/images/pokemon-duplicates.svg';
+import PokemonDuplicateIcon from '../assets/images/pokemon-duplicates.svg';
 import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import {
@@ -85,14 +85,17 @@ export const CardSortBubble: React.FC<CardSortBubbleProps> = ({
             <div className="flex flex-col w-full">
               {SortOptionComponent(
                 CARDS_SORT_CATEGORY.CARD_COLLECTION_NUMBER,
-                Hashtag
+                HashtagIcon
               )}
-              {SortOptionComponent(CARDS_SORT_CATEGORY.TYPES, PokemonType)}
-              {SortOptionComponent(CARDS_SORT_CATEGORY.RARITY, PokemonRarity)}
+              {SortOptionComponent(CARDS_SORT_CATEGORY.TYPES, PokemonTypeIcon)}
+              {SortOptionComponent(
+                CARDS_SORT_CATEGORY.RARITY,
+                PokemonRarityIcon
+              )}
               {SortOptionComponent(CARDS_SORT_CATEGORY.RECENCY, RecencyIcon)}
               {SortOptionComponent(
                 CARDS_SORT_CATEGORY.DUPLICATES,
-                PokemonDuplicate
+                PokemonDuplicateIcon
               )}
             </div>
           </div>
