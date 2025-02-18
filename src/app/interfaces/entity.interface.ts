@@ -14,6 +14,7 @@ export interface CardSet {
 }
 
 export interface UserCard {
+  quantity: number;
   card: {
     id: string;
     rarity: string;

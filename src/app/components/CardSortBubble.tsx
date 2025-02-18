@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
@@ -40,20 +41,24 @@ export const CardSortBubble: React.FC<CardSortBubbleProps> = ({
     isUpArrow = true;
   }
 
-  const SortOptionComponent = (name: string, svg: StaticImport) => {
+  const SortOptionComponent: React.FC<{
+    name: string;
+    svg: StaticImport;
+    onClick: () => void;
+  }> = ({ name, svg, onClick }) => {
     return (
       <div
-        className="p-4 w-full flex justify-end border border-indigo-600"
-        onClick={() => handleSort(name)}
+        className="p-4 w-full flex justify-end hover:bg-gray-700 rounded-2xl"
+        onClick={onClick}
       >
         <div className="mr-5">{name}</div>
-        <Image src={svg} alt="card number sort icon" width={20} height={20} />
+        <Image src={svg} alt={`${name} sort icon`} width={20} height={20} />
       </div>
     );
   };
 
   return (
-    <div className={`${className ?? ''}`}>
+    <div className={`${className ?? ''} h-auto w-auto`}>
       <Drawer>
         <DrawerTrigger asChild>
           <div className="relative w-[72px]">
@@ -83,20 +88,35 @@ export const CardSortBubble: React.FC<CardSortBubbleProps> = ({
               <DrawerDescription />
             </DrawerHeader>
             <div className="flex flex-col w-full">
-              {SortOptionComponent(
-                CARDS_SORT_CATEGORY.CARD_COLLECTION_NUMBER,
-                HashtagIcon
-              )}
-              {SortOptionComponent(CARDS_SORT_CATEGORY.TYPES, PokemonTypeIcon)}
-              {SortOptionComponent(
-                CARDS_SORT_CATEGORY.RARITY,
-                PokemonRarityIcon
-              )}
-              {SortOptionComponent(CARDS_SORT_CATEGORY.RECENCY, RecencyIcon)}
-              {SortOptionComponent(
-                CARDS_SORT_CATEGORY.DUPLICATES,
-                PokemonDuplicateIcon
-              )}
+              <DrawerClose>
+                <SortOptionComponent
+                  name={CARDS_SORT_CATEGORY.CARD_COLLECTION_NUMBER}
+                  svg={HashtagIcon}
+                  onClick={() =>
+                    handleSort(CARDS_SORT_CATEGORY.CARD_COLLECTION_NUMBER)
+                  }
+                />
+                <SortOptionComponent
+                  name={CARDS_SORT_CATEGORY.TYPES}
+                  svg={PokemonTypeIcon}
+                  onClick={() => handleSort(CARDS_SORT_CATEGORY.TYPES)}
+                />
+                <SortOptionComponent
+                  name={CARDS_SORT_CATEGORY.RARITY}
+                  svg={PokemonRarityIcon}
+                  onClick={() => handleSort(CARDS_SORT_CATEGORY.RARITY)}
+                />
+                <SortOptionComponent
+                  name={CARDS_SORT_CATEGORY.RECENCY}
+                  svg={RecencyIcon}
+                  onClick={() => handleSort(CARDS_SORT_CATEGORY.RECENCY)}
+                />
+                <SortOptionComponent
+                  name={CARDS_SORT_CATEGORY.DUPLICATES}
+                  svg={PokemonDuplicateIcon}
+                  onClick={() => handleSort(CARDS_SORT_CATEGORY.DUPLICATES)}
+                />
+              </DrawerClose>
             </div>
           </div>
         </DrawerContent>

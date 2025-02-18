@@ -63,6 +63,7 @@ export const LoginForm: React.FC = () => {
               name="username"
               placeholder="Enter username"
               required
+              autoFocus
             />
           </div>
 

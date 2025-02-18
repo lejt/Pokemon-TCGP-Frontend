@@ -17,7 +17,7 @@ export const CardComparisonSkeletons: React.FC = () => {
 
       <div className="grid grid-cols-3 gap-3 place-items-center mb-16">
         {[...Array(12)].map((_, i) => (
-          <CardSkeleton key={i} />
+          <CardSkeleton key={i} size="sm" />
         ))}
       </div>
     </>

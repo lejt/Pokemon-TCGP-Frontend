@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body>
+      <body className="bg-teal-500">
         <QueryClientProvider client={queryClient}>
           <div className="flex justify-center">{children}</div>
           <Toaster />

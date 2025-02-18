@@ -51,6 +51,7 @@ export const UserCardToAllCardComparison: React.FC<
     hasNextPage,
     isFetchingNextPage
   );
+
   const groupedAllCards = groupCardsByCardSet(allCards);
   const userCardsRarityCount = calculateUserCardRarity(userCards);
 
@@ -108,7 +109,7 @@ export const UserCardToAllCardComparison: React.FC<
 
             <Separator className="bg-black mt-3 h-1 mb-8" />
 
-            <div className="grid grid-cols-3 gap-3 place-items-center mb-16">
+            <div className="grid grid-cols-5 gap-3 place-items-center mb-16">
               {cards?.map((card) => {
                 const userCard = userCards.find((uc) => uc.card.id === card.id);
 
@@ -119,11 +120,12 @@ export const UserCardToAllCardComparison: React.FC<
                     alt={userCard.card.name ?? 'Card image'}
                     width={200}
                     height={300}
+                    className="drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)]"
                   />
                 ) : (
                   <div
                     key={card.id}
-                    className="h-[245px] w-[170px] bg-gray-300 rounded-xl flex justify-center items-center"
+                    className="h-[140px] w-[100px] shadow-[inset_3px_5px_5px_rgba(0,0,0,0.25)] bg-gray-100 rounded-lg text-stone-400 font-semibold text-2xl flex justify-center items-center"
                   >
                     {card.id}
                   </div>
@@ -131,7 +133,7 @@ export const UserCardToAllCardComparison: React.FC<
               })}
 
               {isFetchingNextPage &&
-                [...Array(6)].map((_, i) => <CardSkeleton key={i} />)}
+                [...Array(6)].map((_, i) => <CardSkeleton key={i} size="sm" />)}
             </div>
           </div>
         )

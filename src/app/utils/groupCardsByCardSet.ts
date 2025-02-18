@@ -8,7 +8,10 @@ interface GroupedCards {
 }
 
 export const groupCardsByCardSet = (cards: Card[]): GroupedCards => {
-  return cards?.reduce((acc, card) => {
+  if (!cards) return {};
+
+  return cards.reduce((acc, card) => {
+    if (!card) return {};
     const cardSetId = card.cardSet.id;
 
     if (!acc[cardSetId]) {
