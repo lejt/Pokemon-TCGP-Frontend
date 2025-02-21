@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Card } from '@/app/components/ui/card';
 import { userCardsApi } from '@/app/services/api/user-cards';
-import Image from 'next/image';
 import { CardSortBubble } from '@/app/components/CardSortBubble';
 import { SortField } from '@/app/constants/constants';
 import { useMutation } from '@tanstack/react-query';
@@ -12,10 +11,12 @@ import { CardOptions } from '@/app/components/CardOptions';
 import { UserCardToAllCardComparison } from '@/app/components/UserCardToAllCardComparison';
 import { CardSkeleton } from '@/app/components/CardSkeleton';
 import { UserCard } from '@/app/interfaces/entity.interface';
-
+import { UserCardImage } from '@/app/components/UserCardImage';
+import { CustomDrawer } from '@/app/components/CustomDrawer';
+import { CardDetails } from '@/app/components/CardDetails';
 export interface SortOrderProp {
   field: string;
-  order: 'ASC' | 'DESC';
+  order: string;
 }
 
 const CardsPage: React.FC = () => {
@@ -43,10 +44,14 @@ const CardsPage: React.FC = () => {
 
   const handleSort = (sortName: string) => {
     let sortBy = '';
+    let defaultOrder = 'DESC';
 
     Object.entries(SortField).forEach(([key, value]) => {
       if (value === sortName) {
         sortBy = key;
+        if (sortBy === 'id' || sortBy === 'types') {
+          defaultOrder = 'ASC';
+        }
       }
     });
 
@@ -56,7 +61,7 @@ const CardsPage: React.FC = () => {
         order: sortOrder.order === 'ASC' ? 'DESC' : 'ASC',
       });
     } else {
-      setSortOrder({ field: sortBy, order: 'ASC' });
+      setSortOrder({ field: sortBy, order: defaultOrder });
     }
   };
 
@@ -83,9 +88,10 @@ const CardsPage: React.FC = () => {
   }, []);
 
   const isLoadingCards = fetchUserCards.isPending;
-  const isRenderingUserCards = userCards && !toggleFetch;
+  const isUserCardsReady = userCards && userCards.length > 0;
+  const isRenderingUserCards = isUserCardsReady && !toggleFetch;
   const isUserCardsEmpty = !userCards.length && fetchUserCards.isSuccess;
-  const isComparingUserCardsToDB = userCards && toggleFetch;
+  const isComparingUserCardsToDB = isUserCardsReady && toggleFetch;
 
   return (
     <div className="flex flex-col flex-grow h-full w-full">
@@ -101,7 +107,9 @@ const CardsPage: React.FC = () => {
         {userCards.length > 0 && (
           <div
             className={`${
-              isElementFixed ? 'fixed top-[88%] left-[50%] ml-48' : 'hidden'
+              isElementFixed
+                ? 'fixed bottom-[120px] left-[50%] ml-48'
+                : 'hidden'
             } max-w-[600px] flex justify-center z-50`}
           >
             <CardSortBubble handleSort={handleSort} sortOrder={sortOrder} />
@@ -120,19 +128,14 @@ const CardsPage: React.FC = () => {
             {/* TODO: consider pagination for user cards */}
             {isRenderingUserCards &&
               userCards.map((userCard, idx) => (
-                <div key={idx} className="relative">
-                  <Image
-                    // TODO: find empty state card image
-                    src={`${userCard.card.image}/low.png`}
-                    alt={userCard.card.name ?? 'Card image'}
-                    width={200}
-                    height={300}
-                    className="drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)]"
-                  />
-                  <div className="absolute bottom-0 right-0 bg-gray-700 text-white text-base rounded-tl-2xl rounded-br-lg w-[75px] h-auto flex justify-center ">
-                    {userCard.quantity}
-                  </div>
-                </div>
+                <CustomDrawer
+                  key={idx}
+                  headerText={'Card details'}
+                  drawerTriggerChildren={
+                    <UserCardImage userCard={userCard} showQuantity={true} />
+                  }
+                  drawerContentChildren={<CardDetails userCard={userCard} />}
+                />
               ))}
 
             {isUserCardsEmpty && (

@@ -77,6 +77,7 @@ export const UserCardToAllCardComparison: React.FC<
                 alt={cardSet.name ?? 'Card image'}
                 width={100}
                 height={50}
+                className="h-auto"
               />
 
               {showCardRarityCount && (
@@ -87,7 +88,7 @@ export const UserCardToAllCardComparison: React.FC<
                       alt="card number sort icon"
                       width={10}
                       height={10}
-                      className="mr-2"
+                      className="mr-2 h-auto"
                     />
                     {userCardsRarityCount[`${cardSet.name}`]?.diamondCount ?? 0}
                     /{rarityCounts?.[`${cardSet.name}`]?.diamondCount ?? 0}
@@ -98,7 +99,7 @@ export const UserCardToAllCardComparison: React.FC<
                       alt="card number sort icon"
                       width={10}
                       height={10}
-                      className="mr-2"
+                      className="mr-2 h-auto"
                     />
                     {userCardsRarityCount[`${cardSet.name}`]?.starCount ?? 0}/
                     {rarityCounts?.[`${cardSet.name}`]?.starCount ?? 0}
@@ -120,7 +121,7 @@ export const UserCardToAllCardComparison: React.FC<
                     alt={userCard.card.name ?? 'Card image'}
                     width={200}
                     height={300}
-                    className="drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)]"
+                    className="drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)] h-auto"
                   />
                 ) : (
                   <div

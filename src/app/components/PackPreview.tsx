@@ -41,7 +41,7 @@ export const PackPreview: React.FC<PackPreviewProps> = ({
               height={140}
               alt={`preview card number ${idx}`}
               key={idx}
-              className="shadow-xl"
+              className="shadow-xl h-auto"
               draggable={false}
             />
           ))

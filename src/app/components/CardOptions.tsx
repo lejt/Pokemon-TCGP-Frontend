@@ -36,6 +36,7 @@ export const CardOptions: React.FC<CardOptionsProps> = (props) => {
             alt="Search icon"
             width={20}
             height={20}
+            className="h-auto"
           />
         </div>
       </div>
