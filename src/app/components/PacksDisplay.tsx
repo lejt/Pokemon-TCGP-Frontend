@@ -29,9 +29,8 @@ export const PacksDisplay: React.FC = () => {
   return (
     <Card
       ref={scrollRef}
-      className={`h-full w-full flex gap-4 mb-20 p-4 overflow-x-auto shadow-[5px_10px_25px_rgba(0,0,0,0.5)] cursor-grab select-none ${
-        isDragging ? 'cursor-grabbing' : ''
-      }`}
+      className={`h-full w-full flex gap-4 mb-20 p-4 overflow-x-auto shadow-[5px_10px_25px_rgba(0,0,0,0.5)] cursor-grab rounded-tl-3xl
+        ${isDragging ? 'cursor-grabbing' : ''}`}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseUp}
@@ -45,7 +44,7 @@ export const PacksDisplay: React.FC = () => {
               className={cardsClassName}
               onClick={() => handlePackClick(`${cardSet.id}-${pack.id}`)}
             >
-              <p className="text-center">{pack.image}</p>
+              <div className="text-center">{pack.image}</div>
             </div>
           ))
         ) : (
@@ -54,7 +53,7 @@ export const PacksDisplay: React.FC = () => {
             className={cardsClassName}
             onClick={() => handlePackClick(`${cardSet.id}-0`)}
           >
-            <p> {cardSet.id}</p>
+            <div> {cardSet.id}</div>
           </div>
         )
       )}

@@ -9,7 +9,7 @@ export const LoadingSpinner: React.FC = () => {
       width={70}
       height={70}
       alt="loading gif"
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-auto"
+      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-auto max-w-[70px]"
     />
   );
 };

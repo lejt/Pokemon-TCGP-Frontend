@@ -86,6 +86,7 @@ const CardsPage: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  const userCardCount = userCards.reduce((acc, card) => acc + card.quantity, 0);
 
   const isLoadingCards = fetchUserCards.isPending;
   const isUserCardsReady = userCards && userCards.length > 0;
@@ -98,7 +99,7 @@ const CardsPage: React.FC = () => {
       <CardPageHeader />
       <div className="relative pt-[50px] px-3 z-3 flex flex-col flex-grow w-full justify-center items-center">
         <CardOptions
-          count={userCards?.length}
+          count={userCardCount}
           toggleFetch={toggleFetch}
           setToggleFetch={setToggleFetch}
         />
@@ -125,8 +126,7 @@ const CardsPage: React.FC = () => {
               // arbitrary amount of skeleton cards loading
               [...Array(15)].map((e, i) => <CardSkeleton key={i} />)}
 
-            {/* TODO: consider pagination for user cards */}
-            {isRenderingUserCards &&
+            {isRenderingUserCards && //TODO: consider pagination for user cards
               userCards.map((userCard, idx) => (
                 <CustomDrawer
                   key={idx}
@@ -146,8 +146,7 @@ const CardsPage: React.FC = () => {
               </div>
             )}
 
-            {/* TODO: move CardSortBubble to layout layer and use state management for sortOrder state */}
-            {userCards && (
+            {userCards && ( // TODO: move CardSortBubble to layout layer and use state management for sortOrder state
               <div
                 className={`${
                   isElementFixed ? 'hidden' : 'absolute bottom-10 right-6'
@@ -160,7 +159,7 @@ const CardsPage: React.FC = () => {
         )}
 
         {isComparingUserCardsToDB && (
-          <Card className="relative flex-grow grid p-3 overflow-auto mb-[150px] mt-5 z-2 drop-shadow-xl">
+          <Card className="relative flex-grow grid p-3 overflow-auto mb-[150px] mt-5 z-2 drop-shadow-xl w-full">
             <UserCardToAllCardComparison userCards={userCards} />
           </Card>
         )}

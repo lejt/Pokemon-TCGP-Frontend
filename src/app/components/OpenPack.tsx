@@ -1,14 +1,15 @@
-import { Card } from '@/app/interfaces/entity.interface';
 import React, { Dispatch, SetStateAction, useState, useEffect } from 'react';
-import { useCardDrag } from '../hooks/useDragCard';
 import Image from 'next/image';
+import FastForwardIcon from '@/app/assets/images/fast-forward.svg';
+import { Card } from '@/app/interfaces/entity.interface';
+import { useCardDrag } from '../hooks/useDragCard';
 
 interface OpenPackPageProps {
   cards: Card[];
   setCards: Dispatch<SetStateAction<Card[]>>;
 }
 
-export const OpenPackPage: React.FC<OpenPackPageProps> = ({
+export const OpenPackView: React.FC<OpenPackPageProps> = ({
   cards,
   setCards,
 }) => {
@@ -32,7 +33,7 @@ export const OpenPackPage: React.FC<OpenPackPageProps> = ({
           updated[index] = true;
           return updated;
         });
-      }, index * 200); // Adjust delay per card
+      }, index * 200);
     });
   }, [cards]);
 
@@ -53,13 +54,13 @@ export const OpenPackPage: React.FC<OpenPackPageProps> = ({
               width={150}
               height={250}
               alt={`card ${i + 1}: ${card.name}`}
-              className={`absolute min-w-[300px] h-[300px] ${
-                isCardBeingDragged ? 'cursor-grabbing' : ''
+              className={`absolute min-w-[300px] ${
+                isCardBeingDragged ? 'cursor-grabbing' : 'cursor-pointer'
               } 
               drop-shadow-lg transition-opacity duration-500 ease-in-out`}
               style={{
                 zIndex: cards.length - i,
-                opacity: revealedCards[i] ? 1 : 0, // Fade in effect
+                opacity: revealedCards[i] ? 1 : 0,
                 transform: `translate(${cardPosition?.x || 0}px, ${
                   cardPosition?.y || 0
                 }px) translateZ(${i * 5}px) translateY(${
@@ -67,11 +68,24 @@ export const OpenPackPage: React.FC<OpenPackPageProps> = ({
                 }px) translateX(${i * -5}px)`,
                 willChange: 'transform',
                 height: 'auto',
+                width: 'auto',
               }}
               onMouseDown={(e) => handleMouseDown(e, i)}
             />
           );
         })}
+      </div>
+      <div
+        className="rounded-full absolute bottom-12 right-12 p-4 border-gray-700 border-4 shadow-[0_10px_15px_5px_rgba(0,0,0,0.25)] cursor-pointer"
+        onClick={() => setCards([])}
+      >
+        <Image
+          src={FastForwardIcon}
+          width={20}
+          height={20}
+          className="h-auto"
+          alt="skip new card from pack display button"
+        />
       </div>
     </div>
   );

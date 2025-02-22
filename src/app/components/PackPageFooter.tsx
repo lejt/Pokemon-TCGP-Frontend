@@ -20,10 +20,9 @@ export const PackPageFooter = () => {
         <div>Select other booster packs</div>
         <Image
           src={ChevronRight}
-          width={15}
-          height={15}
           alt="right arrow icon"
-          className="ml-3 mr-7 h-auto"
+          className="ml-3 mr-7"
+          style={{ width: '15px', height: '25px' }}
         />
       </div>
     );
@@ -40,9 +39,9 @@ export const PackPageFooter = () => {
                   <Image
                     src={`${cardSet.logo}.png`}
                     alt="card expansion logo"
-                    height={100}
                     width={120}
-                    className="h-auto"
+                    height={30}
+                    style={{ width: '100px', height: 'auto' }}
                   />
                 </div>
                 {cardSet.packs.length ? (
@@ -94,7 +93,7 @@ export const PackPageFooter = () => {
           width={50}
           height={50}
           alt="go previous button"
-          className="h-auto"
+          style={{ width: '50px', height: '50px' }}
         />
       </div>
 

@@ -5,12 +5,10 @@ import { Card } from './ui/card';
 
 export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
   if (!userCard) return;
-  console.log(userCard.card);
-
   const card = userCard.card;
 
   const boxShadowInsetStyle = 'shadow-[inset_5px_5px_15px_rgba(0,0,0,0.35)]';
-  const titleElementStyle = `text-center w-full rounded-3xl bg-gray-300 mt-6 ${boxShadowInsetStyle}`;
+  const titleElementStyle = `text-center rounded-3xl bg-gray-300 ${boxShadowInsetStyle} flex justify-center items-center`;
 
   const RoundedElement: React.FC<{ title: string; value: string }> = ({
     title,
@@ -51,9 +49,24 @@ export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
 
       {card.category === 'Pokemon' && (
         <>
-          <DescriptionElement text={card.description} />
+          {card.description && <DescriptionElement text={card.description} />}
 
-          <div className={`${titleElementStyle} p-1`}>Attacks</div>
+          {card.abilities.length > 0 &&
+            card.abilities.map((ability, idx) => (
+              <div className="flex flex-col w-full" key={idx}>
+                <div className="flex items-center justify-center">
+                  <div className={`${titleElementStyle} py-1 px-20`}>
+                    {ability.type}
+                  </div>
+                  <div className="w-full ml-4 text-xl font-bold">
+                    {ability.name}
+                  </div>
+                </div>
+                <div className="mt-2">{ability.effect}</div>
+              </div>
+            ))}
+
+          <div className={`${titleElementStyle} p-1 w-full mt-6`}>Attacks</div>
           {card.attacks.map(
             (
               attack: { cost: string[]; name: string; damage: number },
@@ -74,16 +87,20 @@ export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
           <RoundedElement title="Pokemon" value={card.stage} />
           <RoundedElement title="Type" value={card.types[0]} />
           <RoundedElement title="HP" value={card.hp} />
-          <RoundedElement
-            title="Weakness"
-            value={`${card.weakness[0].type} ${card.weakness[0].value}`}
-          />
+          {card.weakness.length > 0 && (
+            <RoundedElement
+              title="Weakness"
+              value={`${card.weakness[0].type} ${card.weakness[0].value}`}
+            />
+          )}
           <RoundedElement title="Retreat" value={card.retreat} />
         </>
       )}
 
       <RoundedElement title="Illustrator" value={card.illustrator} />
-      <div className={`${titleElementStyle} p-4`}>{card.cardSet.name}</div>
+      <div className={`${titleElementStyle} p-4 w-full mt-6`}>
+        {card.cardSet.name}
+      </div>
     </div>
   );
 };

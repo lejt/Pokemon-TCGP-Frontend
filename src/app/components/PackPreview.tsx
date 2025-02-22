@@ -34,17 +34,21 @@ export const PackPreview: React.FC<PackPreviewProps> = ({
       onMouseUp={handleMouseUp}
     >
       {cards?.length > 0
-        ? cards.map((card, idx) => (
-            <Image
-              src={`${card.image}/low.png`}
-              width={100}
-              height={140}
-              alt={`preview card number ${idx}`}
-              key={idx}
-              className="shadow-xl h-auto"
-              draggable={false}
-            />
-          ))
+        ? [...cards]
+            .sort((a, b) => b.id - a.id)
+            .map((card, idx) => (
+              <Image
+                src={`${card.image}/low.png`}
+                width={100}
+                height={140}
+                alt={`preview card number ${idx}`}
+                key={card.id}
+                className="shadow-xl"
+                draggable={false}
+                style={{ width: '100px', height: '140px' }}
+                priority
+              />
+            ))
         : isLoading &&
           [...Array(6)].map((_, i) => <CardSkeleton key={i} size="sm" />)}
     </CardComponent>

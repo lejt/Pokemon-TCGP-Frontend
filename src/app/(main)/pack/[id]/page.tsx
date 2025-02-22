@@ -5,7 +5,7 @@ import { PackPreview } from '@/app/components/PackPreview';
 import { useOpenPack, usePackPreviewCards } from '@/app/hooks/cards';
 import { useParams } from 'next/navigation';
 import { LoadingSpinner } from '@/app/components/LoadingSpinner';
-import { OpenPackPage } from '@/app/components/OpenPack';
+import { OpenPackView } from '@/app/components/OpenPack';
 import { useEffect, useState } from 'react';
 
 const PacksPage: React.FC = () => {
@@ -67,7 +67,7 @@ const PacksPage: React.FC = () => {
         </>
       )}
 
-      {isOpeningPackView && <OpenPackPage cards={cards} setCards={setCards} />}
+      {isOpeningPackView && <OpenPackView cards={cards} setCards={setCards} />}
     </div>
   );
 };

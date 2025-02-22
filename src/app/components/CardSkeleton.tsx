@@ -9,7 +9,7 @@ export const CardSkeleton: React.FC<CardSkeletonProps> = (props) => {
   const { size } = props;
 
   const cardSize =
-    size === 'sm' ? 'h-[140px] min-w-[100px]' : 'h-[245px] w-[170px]';
+    size === 'sm' ? 'h-[140px] min-w-[100px]' : 'h-[240px] w-[175px]';
 
   return <Skeleton className={`${cardSize} rounded-xl`} />;
 };

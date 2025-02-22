@@ -48,9 +48,7 @@ export const CardSortBubble: React.FC<CardSortBubbleProps> = ({
         <Image
           src={svg}
           alt={`${name} sort icon`}
-          width={20}
-          height={20}
-          className="h-auto"
+          style={{ width: '20px', height: '20px' }}
         />
       </div>
     );
@@ -59,22 +57,18 @@ export const CardSortBubble: React.FC<CardSortBubbleProps> = ({
   const SortBubbleIcon: React.FC = () => {
     return (
       <div className="relative w-[72px]">
-        <Avatar className="flex justify-center bg-gray-200 w-16 h-16">
-          <AvatarImage asChild />
+        <Avatar className="flex justify-center items-center bg-gray-200 w-16 h-16">
           <Image
             src={CardsIcon}
             alt="card sort icon"
-            width={35}
-            height={35}
-            className="h-auto"
+            style={{ width: '35px', height: '35px' }}
           />
         </Avatar>
         <Image
           src={isUpArrow ? UpArrowIcon : DownArrowIcon}
           alt="card sort icon"
-          width={15}
-          height={15}
-          className="absolute right-0 top-0 bottom-0 my-auto bg-gray-500 rounded-full h-auto"
+          className="absolute right-0 top-0 bottom-0 my-auto bg-gray-500 rounded-full"
+          style={{ width: '20px', height: '20px' }}
         />
       </div>
     );
