@@ -24,7 +24,7 @@ export const getHost = () => {
 };
 
 export const getBackEndHost = (): string => {
-  const host = 'http://localhost:3001';
+  const host = 'http://localhost:3001'; // TODO: make sure to use HTTPS
   return host;
 };
 

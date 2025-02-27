@@ -1,14 +1,22 @@
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DrawerClose } from './ui/drawer';
 import { useCardSetsAndPacks } from '../hooks/cardSets';
 import Image from 'next/image';
 import BackArrowIcon from '../assets/images/previous-arrow.svg';
 import ChevronRight from '../assets/images/chevron-right.svg';
 import { CustomDrawer } from './CustomDrawer';
+import { getAuthToken } from '../utils/local-storage';
 
 export const PackPageFooter = () => {
   const router = useRouter();
+  const token = getAuthToken();
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, [router, token]);
 
   // TODO: could fetch only if other packs section is clicked for optimization
   const { data: cardSetsAndPacks, isLoading, error } = useCardSetsAndPacks();

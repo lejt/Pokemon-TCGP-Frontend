@@ -56,6 +56,7 @@ export const CardOptions: React.FC<CardOptionsProps> = (props) => {
             src={MagnifyGlassIcon}
             alt="Search icon"
             style={{ width: '20px', height: '20px' }}
+            className="cursor-not-allowed"
           />
         </div>
       </div>

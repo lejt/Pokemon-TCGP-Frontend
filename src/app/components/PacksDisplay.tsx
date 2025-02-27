@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCardSetsAndPacks } from '../hooks/cardSets';
 import { useRouter } from 'next/navigation';
 import { Card } from './ui/card';
 import { useDragScroll } from '../hooks/useDragScroll';
+import { getAuthToken } from '../utils/local-storage';
 
 export const PacksDisplay: React.FC = () => {
-  const { data: cardSetsAndPacks } = useCardSetsAndPacks();
   const router = useRouter();
+
+  useEffect(() => {
+    const token = getAuthToken();
+    if (!token) {
+      router.push('/');
+    }
+  }, [router]);
+
+  const { data: cardSetsAndPacks } = useCardSetsAndPacks();
+
   const {
     scrollRef,
     isDragging,

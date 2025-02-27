@@ -3,13 +3,16 @@
 import { PackPageFooter } from '@/app/components/PackPageFooter';
 import { PackPreview } from '@/app/components/PackPreview';
 import { useOpenPack, usePackPreviewCards } from '@/app/hooks/cards';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { LoadingSpinner } from '@/app/components/LoadingSpinner';
 import { OpenPackView } from '@/app/components/OpenPack';
 import { useEffect, useState } from 'react';
+import { getAuthToken } from '@/app/utils/local-storage';
 
 const PacksPage: React.FC = () => {
+  const router = useRouter();
   const param = useParams();
+  const token = getAuthToken();
   const { id } = param;
 
   const paramArr = id?.split('-') || [];
@@ -30,6 +33,12 @@ const PacksPage: React.FC = () => {
   } = usePackPreviewCards(cardSetId, packId);
 
   const [cards, setCards] = useState(newCards);
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, [router, token]);
 
   useEffect(() => {
     if (isSuccess && newCards) {

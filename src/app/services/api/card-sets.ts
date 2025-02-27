@@ -1,13 +1,10 @@
 import { getBackEndHost } from '@/app/constants/constants';
-import { isAuthUser } from '@/app/utils/auth';
 import { getAuthToken } from '@/app/utils/local-storage';
 
 export const cardSetsApi = {
   getAllCardSetsAndPacks: async () => {
-    const isUser = await isAuthUser();
-    if (!isUser) return { message: 'Unauthorized' };
-
     const token = getAuthToken();
+    if (!token) return false;
 
     const response = await fetch(`${getBackEndHost()}/card-sets`, {
       method: 'GET',

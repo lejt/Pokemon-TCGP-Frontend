@@ -1,15 +1,12 @@
 import { getBackEndHost } from '@/app/constants/constants';
-import { isAuthUser } from '@/app/utils/auth';
 import { getAuthToken } from '@/app/utils/local-storage';
 
 export const cardsApi = {
   getAllCards: async (paginationProp: { page: number; limit: number }) => {
     const { page, limit } = paginationProp;
 
-    const isUser = await isAuthUser();
-    if (!isUser) return { message: 'Unauthorized' };
-
     const token = getAuthToken();
+    if (!token) return false;
 
     const response = await fetch(
       `${getBackEndHost()}/cards?page=${page}&limit=${limit}`,
@@ -34,10 +31,8 @@ export const cardsApi = {
   },
 
   getRarityCountBasedOnCardSets: async () => {
-    const isUser = await isAuthUser();
-    if (!isUser) return { message: 'Unauthorized' };
-
     const token = getAuthToken();
+    if (!token) return false;
 
     const response = await fetch(`${getBackEndHost()}/cards/rarity-count`, {
       method: 'GET',
@@ -58,10 +53,8 @@ export const cardsApi = {
   },
 
   getPackPreviewCards: async (cardSetId: number, packId: number) => {
-    const isUser = await isAuthUser();
-    if (!isUser) return { message: 'Unauthorized' };
-
     const token = getAuthToken();
+    if (!token) return false;
 
     const response = await fetch(
       `${getBackEndHost()}/cards/pack-preview?cardSetId=${cardSetId}&packId=${packId}`,
@@ -87,10 +80,8 @@ export const cardsApi = {
   },
 
   openPack: async (cardSetId: number, packId: number | null) => {
-    const isUser = await isAuthUser();
-    if (!isUser) return { message: 'Unauthorized' };
-
     const token = getAuthToken();
+    if (!token) return false;
 
     const response = await fetch(`${getBackEndHost()}/cards/generate-pack`, {
       method: 'POST',

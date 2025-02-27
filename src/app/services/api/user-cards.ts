@@ -1,5 +1,4 @@
 import { getBackEndHost } from '@/app/constants/constants';
-import { isAuthUser } from '@/app/utils/auth';
 import { getAuthToken } from '@/app/utils/local-storage';
 
 interface SortByProp {
@@ -9,10 +8,8 @@ interface SortByProp {
 
 export const userCardsApi = {
   getUserCards: async (sortBy?: SortByProp) => {
-    const isUser = await isAuthUser();
-    if (!isUser) return;
-
     const token = getAuthToken();
+    if (!token) return false;
 
     let url = `${getBackEndHost()}/users/me/user-cards`;
     if (sortBy && sortBy.field && sortBy.order) {
