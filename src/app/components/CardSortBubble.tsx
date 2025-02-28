@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, AvatarImage } from './ui/avatar';
+import { Avatar } from './ui/avatar';
 import CardsIcon from '../assets/images/cards-blank.svg';
 import UpArrowIcon from '../assets/images/arrow-small-up.svg';
 import DownArrowIcon from '../assets/images/arrow-small-down.svg';

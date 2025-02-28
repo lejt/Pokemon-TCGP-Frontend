@@ -8,6 +8,6 @@ export const setAuthToken = (token: string): void => {
   window.localStorage.setItem(STORAGE.ACCESS_TOKEN, token);
 };
 
-export const removeAuthToke = (): void => {
+export const removeAuthToken = (): void => {
   window.localStorage.removeItem(STORAGE.ACCESS_TOKEN);
 };

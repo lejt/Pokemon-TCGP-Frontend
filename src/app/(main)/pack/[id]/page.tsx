@@ -15,21 +15,21 @@ const PacksPage: React.FC = () => {
   const token = getAuthToken();
   const { id } = param;
 
-  const paramArr = id?.split('-') || [];
+  const paramArr = typeof id === 'string' ? id.split('-') : [];
   const cardSetId = Number(paramArr[0]);
   const packId = Number(paramArr[1]);
 
   const {
     mutate,
     data: newCards,
-    error,
+    // error,
     isPending: isPendingOpeningPack,
     isSuccess,
   } = useOpenPack();
   const {
     data: previewCards,
     isLoading: isLoadingPreviewCards,
-    error: errorOnPreviewCards,
+    // error: errorOnPreviewCards,
   } = usePackPreviewCards(cardSetId, packId);
 
   const [cards, setCards] = useState(newCards);

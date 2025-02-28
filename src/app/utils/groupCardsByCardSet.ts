@@ -11,7 +11,7 @@ export const groupCardsByCardSet = (cards: Card[]): GroupedCards => {
   if (!cards) return {};
 
   return cards.reduce((acc, card) => {
-    if (!card) return {};
+    if (!card || !card.cardSet) return {};
     const cardSetId = card.cardSet.id;
 
     if (!acc[cardSetId]) {

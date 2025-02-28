@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Card } from '../interfaces/entity.interface';
 
 export const useCardDrag = (
   newCards: Card[],
@@ -87,6 +88,7 @@ export const useCardDrag = (
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseup', handleEnd);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draggingCardIndex, cardPositionsLocal]);
 
   // Set the updated card positions to the parent component (or wherever needed)

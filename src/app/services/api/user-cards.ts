@@ -1,4 +1,4 @@
-import { getBackEndHost } from '@/app/constants/constants';
+import { getHost } from '@/app/constants/constants';
 import { getAuthToken } from '@/app/utils/local-storage';
 
 interface SortByProp {
@@ -11,7 +11,7 @@ export const userCardsApi = {
     const token = getAuthToken();
     if (!token) return false;
 
-    let url = `${getBackEndHost()}/users/me/user-cards`;
+    let url = `${getHost()}/users/me/user-cards`;
     if (sortBy && sortBy.field && sortBy.order) {
       const queryParams = new URLSearchParams({
         'sortBy[0][field]': sortBy.field,

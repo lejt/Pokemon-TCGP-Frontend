@@ -1,8 +1,8 @@
-import { getBackEndHost } from '../../constants/constants';
+import { getHost } from '../../constants/constants';
 
 export const authApi = {
   signIn: async (username: string, password: string) => {
-    const response = await fetch(`${getBackEndHost()}/auth/signin`, {
+    const response = await fetch(`${getHost()}/auth/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export const authApi = {
   },
 
   signUp: async (username: string, password: string) => {
-    const response = await fetch(`${getBackEndHost()}/auth/signup`, {
+    const response = await fetch(`${getHost()}/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export const authApi = {
   },
 
   validateToken: async (accessToken: string) => {
-    const response = await fetch(`${getBackEndHost()}/auth/validate-token`, {
+    const response = await fetch(`${getHost()}/auth/validate-token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

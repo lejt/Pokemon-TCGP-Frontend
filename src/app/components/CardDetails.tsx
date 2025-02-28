@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { UserCard } from '../interfaces/entity.interface';
 import { UserCardImage } from './UserCardImage';
-import { Card } from './ui/card';
+import { Card as CardComponent } from './ui/card';
 
 export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
   if (!userCard) return;
-  const card = userCard.card;
+  const card: any = userCard.card; // TODO: import card object interface from backend, remove lint ignore at top
 
   const boxShadowInsetStyle = 'shadow-[inset_5px_5px_15px_rgba(0,0,0,0.35)]';
   const titleElementStyle = `text-center rounded-3xl bg-gray-300 ${boxShadowInsetStyle} flex justify-center items-center`;
@@ -26,9 +27,9 @@ export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
 
   const DescriptionElement: React.FC<{ text: string }> = ({ text }) => {
     return (
-      <Card className="w-full p-6 shadow-[5px_10px_25px_rgba(0,0,0,0.5)] my-8 bg-gray-200">
+      <CardComponent className="w-full p-6 shadow-[5px_10px_25px_rgba(0,0,0,0.5)] my-8 bg-gray-200">
         {text}
-      </Card>
+      </CardComponent>
     );
   };
 
@@ -42,8 +43,8 @@ export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
 
       {card.category === 'Trainer' && (
         <>
-          <DescriptionElement text={card.effect} />
-          <RoundedElement title="Trainer" value={card.trainerType} />
+          <DescriptionElement text={card.effect || ''} />
+          <RoundedElement title="Trainer" value={card.trainerType || ''} />
         </>
       )}
 
@@ -52,7 +53,7 @@ export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
           {card.description && <DescriptionElement text={card.description} />}
 
           {card.abilities.length > 0 &&
-            card.abilities.map((ability, idx) => (
+            card.abilities.map((ability: any, idx: number) => (
               <div className="flex flex-col w-full" key={idx}>
                 <div className="flex items-center justify-center">
                   <div className={`${titleElementStyle} py-1 px-20`}>

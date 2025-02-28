@@ -2,29 +2,23 @@ export enum STORAGE {
   ACCESS_TOKEN = 'ACCESS_TOKEN',
 }
 
-// const currentEnv = process.env['something'];
-const currentEnv = 'development';
-
 export const getHost = () => {
   let host = '';
 
+  const currentEnv = process.env.NODE_ENV;
+  console.log(currentEnv, process.env.NEXT_PUBLIC_PUBLIC_API_HOST);
   switch (currentEnv) {
-    // case 'production':
-    //   host = 'https://';
-    //   break;
+    case 'production':
+      host = process.env.NEXT_PUBLIC_PUBLIC_API_HOST || 'https://google.com';
+      break;
     case 'development':
-      host = 'http://localhost:3000';
+      host = process.env.NEXT_PUBLIC_PUBLIC_API_HOST || 'http://localhost:3001';
       break;
     default:
-      host = 'https://';
+      host = 'http://localhost:3001';
       break;
   }
 
-  return host;
-};
-
-export const getBackEndHost = (): string => {
-  const host = 'http://localhost:3001'; // TODO: make sure to use HTTPS
   return host;
 };
 

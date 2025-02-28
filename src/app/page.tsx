@@ -13,6 +13,7 @@ import PikachuCard from '@/app/assets/images/pikachu-card.png';
 import EeveeCard from '@/app/assets/images/eevee-card.png';
 import Image, { StaticImageData } from 'next/image';
 import { LoadingSpinner } from './components/LoadingSpinner';
+import { removeAuthToken } from './utils/local-storage';
 
 const LandingPage: React.FC = () => {
   const router = useRouter();
@@ -31,6 +32,8 @@ const LandingPage: React.FC = () => {
       } else {
         if (isAuthenticated) {
           router.push('/home');
+        } else {
+          removeAuthToken();
         }
       }
     },

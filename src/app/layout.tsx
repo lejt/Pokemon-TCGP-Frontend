@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body className="bg-center bg-[url(@/app/assets/images/town_image.png)] bg-cover">
+      <body className="bg-center bg-[url(./assets/images/town_image.png)] bg-cover">
         <QueryClientProvider client={queryClient}>
           <div className="flex justify-center">{children}</div>
           <Toaster />

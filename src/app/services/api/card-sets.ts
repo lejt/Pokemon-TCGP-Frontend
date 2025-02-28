@@ -1,4 +1,4 @@
-import { getBackEndHost } from '@/app/constants/constants';
+import { getHost } from '@/app/constants/constants';
 import { getAuthToken } from '@/app/utils/local-storage';
 
 export const cardSetsApi = {
@@ -6,7 +6,7 @@ export const cardSetsApi = {
     const token = getAuthToken();
     if (!token) return false;
 
-    const response = await fetch(`${getBackEndHost()}/card-sets`, {
+    const response = await fetch(`${getHost()}/card-sets`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

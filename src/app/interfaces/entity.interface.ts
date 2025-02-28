@@ -1,13 +1,13 @@
 export interface Card {
-  id: string;
+  id: number;
   name: string;
   rarity: string;
-  cardSet: CardSet;
+  cardSet?: CardSet;
   image?: string;
 }
 
 export interface CardSet {
-  id: string;
+  id: number;
   name: string;
   externalId?: string;
   logo?: string;
@@ -16,7 +16,7 @@ export interface CardSet {
 export interface UserCard {
   quantity: number;
   card: {
-    id: string;
+    id: number;
     rarity: string;
     image: string;
     name: string;

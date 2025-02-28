@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { DrawerClose } from './ui/drawer';
@@ -19,7 +20,11 @@ export const PackPageFooter = () => {
   }, [router, token]);
 
   // TODO: could fetch only if other packs section is clicked for optimization
-  const { data: cardSetsAndPacks, isLoading, error } = useCardSetsAndPacks();
+  const {
+    data: cardSetsAndPacks,
+    // isLoading,
+    // error
+  } = useCardSetsAndPacks();
   if (!Array.isArray(cardSetsAndPacks)) return;
 
   const OpenOtherPacks: React.FC = () => {
@@ -54,19 +59,24 @@ export const PackPageFooter = () => {
                 </div>
                 {cardSet.packs.length ? (
                   <div className="flex justify-evenly gap-4">
-                    {cardSet.packs.map((pack, idx) => (
-                      <DrawerClose key={idx}>
-                        <div
-                          key={idx}
-                          className="w-[100px] h-[200px] bg-gray-500 rounded-xl flex items-center justify-center shadow-2xl"
-                          onClick={() =>
-                            router.push(`/pack/${cardSet.id}-${pack.id}`)
-                          }
-                        >
-                          {pack.id}
-                        </div>
-                      </DrawerClose>
-                    ))}
+                    {cardSet.packs.map(
+                      (
+                        pack: any,
+                        idx: number // TODO: replace any and remove lint-ignore at top
+                      ) => (
+                        <DrawerClose key={idx}>
+                          <div
+                            key={idx}
+                            className="w-[100px] h-[200px] bg-gray-500 rounded-xl flex items-center justify-center shadow-2xl"
+                            onClick={() =>
+                              router.push(`/pack/${cardSet.id}-${pack.id}`)
+                            }
+                          >
+                            {pack.id}
+                          </div>
+                        </DrawerClose>
+                      )
+                    )}
                   </div>
                 ) : (
                   <DrawerClose>

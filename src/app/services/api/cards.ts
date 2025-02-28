@@ -1,4 +1,4 @@
-import { getBackEndHost } from '@/app/constants/constants';
+import { getHost } from '@/app/constants/constants';
 import { getAuthToken } from '@/app/utils/local-storage';
 
 export const cardsApi = {
@@ -9,7 +9,7 @@ export const cardsApi = {
     if (!token) return false;
 
     const response = await fetch(
-      `${getBackEndHost()}/cards?page=${page}&limit=${limit}`,
+      `${getHost()}/cards?page=${page}&limit=${limit}`,
       {
         method: 'GET',
         headers: {
@@ -34,7 +34,7 @@ export const cardsApi = {
     const token = getAuthToken();
     if (!token) return false;
 
-    const response = await fetch(`${getBackEndHost()}/cards/rarity-count`, {
+    const response = await fetch(`${getHost()}/cards/rarity-count`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export const cardsApi = {
     if (!token) return false;
 
     const response = await fetch(
-      `${getBackEndHost()}/cards/pack-preview?cardSetId=${cardSetId}&packId=${packId}`,
+      `${getHost()}/cards/pack-preview?cardSetId=${cardSetId}&packId=${packId}`,
       {
         method: 'GET',
         headers: {
@@ -83,7 +83,7 @@ export const cardsApi = {
     const token = getAuthToken();
     if (!token) return false;
 
-    const response = await fetch(`${getBackEndHost()}/cards/generate-pack`, {
+    const response = await fetch(`${getHost()}/cards/generate-pack`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

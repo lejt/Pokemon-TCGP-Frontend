@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
 import { useCardSetsAndPacks } from '../hooks/cardSets';
 import { useRouter } from 'next/navigation';
@@ -48,15 +49,19 @@ export const PacksDisplay: React.FC = () => {
     >
       {cardSetsAndPacks.map((cardSet) =>
         cardSet.packs.length > 0 ? (
-          cardSet.packs.map((pack) => (
-            <div
-              key={`${cardSet.id}-${pack.id}`}
-              className={cardsClassName}
-              onClick={() => handlePackClick(`${cardSet.id}-${pack.id}`)}
-            >
-              <div className="text-center">{pack.image}</div>
-            </div>
-          ))
+          cardSet.packs.map(
+            (
+              pack: any // TODO: update type and remove lint-ignore at top
+            ) => (
+              <div
+                key={`${cardSet.id}-${pack.id}`}
+                className={cardsClassName}
+                onClick={() => handlePackClick(`${cardSet.id}-${pack.id}`)}
+              >
+                <div className="text-center">{pack.image}</div>
+              </div>
+            )
+          )
         ) : (
           <div
             key={`${cardSet.id}`}
