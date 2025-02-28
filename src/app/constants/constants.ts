@@ -6,7 +6,7 @@ export const getHost = () => {
   let host = '';
 
   const currentEnv = process.env.NODE_ENV;
-  console.log(currentEnv, process.env.NEXT_PUBLIC_PUBLIC_API_HOST);
+
   switch (currentEnv) {
     case 'production':
       host = process.env.NEXT_PUBLIC_PUBLIC_API_HOST || 'https://google.com';
