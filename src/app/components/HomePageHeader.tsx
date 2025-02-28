@@ -19,7 +19,7 @@ export const HomePageHeader: React.FC = () => {
 
   return (
     <div className="relative w-full h-[200px] bg-gradient-to-r from-red-700 via-red-500 to-red-700 flex flex-col justify-end items-center sticky top-[-70px] drop-shadow-[0_20px_10px_rgba(0,0,0,0.20)] z-30 border-2 border-black">
-      <div className="absolute top-2 left-10 text-gray-900 font-semibold">
+      <div className="absolute top-4 left-12 text-gray-400 font-semibold px-4 rounded-full border-2 border-black bg-gray-700">
         V.1.0
       </div>
 
@@ -34,7 +34,7 @@ export const HomePageHeader: React.FC = () => {
         <div className="w-[30px] h-[30px] absolute bottom-[45px] bg-gray-100 rounded-full z-10"></div>
         <div className="w-[25px] h-[25px] absolute bottom-[48px] rounded-full border-2 border-black z-20"></div>
       </div>
-      <div className="z-50 text-gray-900 font-semibold text-md [writing-mode:sideways-lr] absolute top-2 left-2">
+      <div className="z-50 text-gray-900 font-semibold text-md [writing-mode:sideways-lr] absolute top-0 left-2 max-h-32">
         Pokémon TCG Pocket
       </div>
 

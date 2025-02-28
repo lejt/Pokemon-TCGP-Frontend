@@ -6,11 +6,10 @@ import { PacksDisplay } from '@/app/components/PacksDisplay';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="flex flex-col flex-grow h-full w-full">
+    <div className="flex flex-col w-full h-full">
       <HomePageHeader />
-      <div className="flex flex-col flex-grow w-full p-8 bg-gray-200 mb-24 justify-center items-center border-x-2 border-black">
+      <div className="flex flex-col w-full h-full px-8 pb-32 items-center border-x-2 border-black pt-[40%]">
         <PacksDisplay />
-
         <div className="flex gap-12">
           <HomePageWidget text={'Wonder Pick'} />
           <HomePageWidget text={'Shop'} />

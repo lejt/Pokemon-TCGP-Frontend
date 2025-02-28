@@ -40,7 +40,7 @@ export const PacksDisplay: React.FC = () => {
   return (
     <Card
       ref={scrollRef}
-      className={`h-full w-full flex gap-4 mb-20 p-4 overflow-x-auto shadow-[5px_10px_25px_rgba(0,0,0,0.5)] cursor-grab rounded-tl-3xl
+      className={`w-full flex gap-4 mb-20 p-4 overflow-x-auto shadow-[5px_10px_25px_rgba(0,0,0,0.5)] cursor-grab rounded-tl-3xl
         ${isDragging ? 'cursor-grabbing' : ''}`}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}

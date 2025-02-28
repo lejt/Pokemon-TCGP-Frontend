@@ -15,6 +15,7 @@ import { UserCardImage } from '@/app/components/UserCardImage';
 import { CustomDrawer } from '@/app/components/CustomDrawer';
 import { CardDetails } from '@/app/components/CardDetails';
 import { useRouter } from 'next/navigation';
+import { getAuthToken } from '@/app/utils/local-storage';
 export interface SortOrderProp {
   field: string;
   order: string;
@@ -25,6 +26,13 @@ const CardsPage: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<SortOrderProp | null>(null);
   const [toggleFetch, setToggleFetch] = useState<boolean>(false);
   const router = useRouter();
+  const token = getAuthToken();
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, [router, token]);
 
   // TODO: may consider using useQuery instead since it is better for fetching while mutation is for modifying
   const fetchUserCards = useMutation({
@@ -35,8 +43,11 @@ const CardsPage: React.FC = () => {
       });
     },
     onSuccess: (data) => {
-      if (!data) router.push('/');
-      setUserCards(data);
+      if (!Array.isArray(data)) {
+        if (data.message) router.push('/');
+      } else {
+        setUserCards(data);
+      }
     },
   });
 
@@ -90,8 +101,6 @@ const CardsPage: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (!userCards) return;
-
   const userCardCount = userCards.reduce((acc, card) => acc + card.quantity, 0);
 
   const isLoadingCards = fetchUserCards.isPending;
@@ -101,9 +110,9 @@ const CardsPage: React.FC = () => {
   const isComparingUserCardsToDB = isUserCardsReady && toggleFetch;
 
   return (
-    <div className="flex flex-col flex-grow h-screen w-full">
+    <div className="flex flex-col flex-grow h-full w-full">
       <CardPageHeader />
-      <div className="relative pt-[50px] px-3 z-3 flex flex-col flex-grow w-full justify-center items-center border-x-2 border-black">
+      <div className="relative px-3 z-3 flex flex-col flex-grow w-full justify-center items-center border-x-2 border-black bg-gray-300">
         <CardOptions
           count={userCardCount}
           toggleFetch={toggleFetch}
