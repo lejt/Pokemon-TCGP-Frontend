@@ -58,7 +58,7 @@ const PacksPage: React.FC = () => {
   };
 
   return (
-    <div className="relative flex flex-col flex-grow h-full w-full justify-center items-center mb-24 bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_45%,_rgba(81,215,207,1)_40%,_rgba(106,255,246,1)_70%,_rgba(91,176,255,1)_90%)]">
+    <div className="relative flex flex-col flex-grow h-full w-full justify-center items-center mb-24 bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_45%,_rgba(81,215,207,1)_40%,_rgba(106,255,246,1)_70%,_rgba(91,176,255,1)_90%)] border-x-2 border-black">
       {isAnyLoading && <LoadingSpinner />}
 
       {!isCardsViewable && (
