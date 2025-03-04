@@ -25,7 +25,7 @@ export const PackPreview: React.FC<PackPreviewProps> = ({
   return (
     <CardComponent
       ref={scrollRef}
-      className={`w-[450px] min-h-[200px] rounded-3xl mb-5 border-8 bg-white flex gap-2 p-4 overflow-x-auto drop-shadow-[0_5px_5px_rgba(0,0,0,0.25)] shadow-[inset_5px_5px_10px_rgba(0,0,0,0.5)] cursor-grab select-none ${
+      className={`max-w-[500px] w-full rounded-3xl flex justify-start gap-2 overflow-x-auto drop-shadow-[0_5px_5px_rgba(0,0,0,0.25)] shadow-[inset_5px_5px_10px_rgba(0,0,0,0.5)] px-4 cursor-grab select-none ${
         isDragging ? 'cursor-grabbing' : ''
       }`}
       onMouseDown={handleMouseDown}
@@ -37,20 +37,23 @@ export const PackPreview: React.FC<PackPreviewProps> = ({
         ? [...cards]
             .sort((a, b) => b.id - a.id)
             .map((card, idx) => (
-              <Image
-                src={`${card.image}/low.png`}
-                width={100}
-                height={140}
-                alt={`preview card number ${idx}`}
-                key={card.id}
-                className="shadow-xl"
-                draggable={false}
-                style={{ width: '100px', height: '140px' }}
-                priority
-              />
+              <div key={card.id} className="relative min-w-[20%]">
+                <Image
+                  src={`${card.image}/low.png`}
+                  alt={`preview card number ${idx}`}
+                  className="object-contain"
+                  draggable={false}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
             ))
         : isLoading &&
-          [...Array(6)].map((_, i) => <CardSkeleton key={i} size="sm" />)}
+          [...Array(6)].map((_, i) => (
+            <div key={i} className="flex justify-center items-center">
+              <CardSkeleton size="sm" />
+            </div>
+          ))}
     </CardComponent>
   );
 };

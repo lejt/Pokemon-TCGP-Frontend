@@ -55,12 +55,14 @@ const LandingPage: React.FC = () => {
           alt="start screen card"
           className={`z-20`}
           style={{ height: 'auto', width: cardWidth }}
+          priority
         />
         <Image
           src={png}
-          alt="start screen venasaur card reflection"
-          className={`w-[${cardWidth}px] opacity-30 scale-y-[-1]`}
+          alt="start screen card reflection"
+          className={`w-[${cardWidth}px] opacity-30 scale-y-[-1] z-20`}
           style={{ height: 'auto', width: cardWidth }}
+          priority
         />
       </div>
     );
@@ -68,7 +70,7 @@ const LandingPage: React.FC = () => {
 
   if (authenticateUser.isPending) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center">
+      <div className="h-full w-full flex items-center justify-center">
         <LoadingSpinner />
       </div>
     );
@@ -77,7 +79,7 @@ const LandingPage: React.FC = () => {
   const PageContent: React.FC = () => {
     return (
       <div
-        className="relative w-screen h-screen flex items-center justify-center"
+        className="relative flex flex-col items-center justify-center w-screen h-screen"
         onClick={handleClick}
       >
         <CardElement
@@ -94,15 +96,15 @@ const LandingPage: React.FC = () => {
         <CardElement
           png={EeveeCard}
           cardWidth={130}
-          style={'top-40  left-3/4'}
+          style={'top-20  left-3/4'}
         />
         <CardElement
           png={PikachuCard}
           cardWidth={130}
-          style={'top-40  right-3/4'}
+          style={'top-20  right-3/4'}
         />
 
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black font-bold text-8xl w-[500px] text-gray-800 z-20">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black font-bold text-6xl w-[500px] text-gray-800 z-20">
           Pokémon TCG Pocket
         </div>
         <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black font-bold text-xl animate-pulse">
@@ -113,11 +115,13 @@ const LandingPage: React.FC = () => {
   };
 
   return (
+    // <div className="h-full w-full border-4 border-yellow-800">
     <CustomDrawer
       headerText=""
       drawerTriggerChildren={<PageContent />}
       drawerContentChildren={<LoginForm />}
     />
+    // </div>
   );
 };
 

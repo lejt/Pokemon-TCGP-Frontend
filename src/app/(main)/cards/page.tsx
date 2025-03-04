@@ -110,7 +110,7 @@ const CardsPage: React.FC = () => {
   const isComparingUserCardsToDB = isUserCardsReady && toggleFetch;
 
   return (
-    <div className="flex flex-col flex-grow h-full w-full">
+    <div className="flex flex-col w-full relative">
       <CardPageHeader />
       <div className="relative px-3 z-3 flex flex-col flex-grow w-full justify-center items-center border-x-2 border-black bg-gray-300">
         <CardOptions
@@ -128,7 +128,9 @@ const CardsPage: React.FC = () => {
                 : 'hidden'
             } max-w-[600px] flex justify-center z-50`}
           >
-            <CardSortBubble handleSort={handleSort} sortOrder={sortOrder} />
+            {!toggleFetch && (
+              <CardSortBubble handleSort={handleSort} sortOrder={sortOrder} />
+            )}
           </div>
         )}
 
@@ -155,7 +157,7 @@ const CardsPage: React.FC = () => {
 
             {isUserCardsEmpty && (
               <div className="col-span-3">
-                <span>
+                <span className="text-sm text-gray-500">
                   You have no cards collected. Open a pack of cards to start!
                 </span>
               </div>
@@ -167,7 +169,12 @@ const CardsPage: React.FC = () => {
                   isElementFixed ? 'hidden' : 'absolute bottom-10 right-6'
                 } max-w-[600px] flex justify-center z-50`}
               >
-                <CardSortBubble handleSort={handleSort} sortOrder={sortOrder} />
+                {!toggleFetch && (
+                  <CardSortBubble
+                    handleSort={handleSort}
+                    sortOrder={sortOrder}
+                  />
+                )}
               </div>
             )}
           </Card>

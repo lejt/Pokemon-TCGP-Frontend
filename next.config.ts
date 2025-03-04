@@ -1,7 +1,6 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
     remotePatterns: [
       {
@@ -9,6 +8,13 @@ const nextConfig: NextConfig = {
         hostname: 'assets.tcgdex.net',
         port: '',
         pathname: '/en/tcgp/**',
+        search: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.game8.co',
+        port: '',
+        pathname: '/**',
         search: '',
       },
     ],

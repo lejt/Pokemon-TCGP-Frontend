@@ -10,6 +10,7 @@ export interface CardSet {
   id: number;
   name: string;
   externalId?: string;
+  image?: string;
   logo?: string;
 }
 
@@ -24,4 +25,16 @@ export interface UserCard {
       name: string;
     };
   };
+}
+
+export interface Pack {
+  id: number;
+  image?: string;
+}
+
+export interface CardSetFromCardSetAndPacks {
+  id: number;
+  name: string;
+  image?: string;
+  packs: Pack[];
 }

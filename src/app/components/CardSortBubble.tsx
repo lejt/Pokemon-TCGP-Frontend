@@ -57,7 +57,7 @@ export const CardSortBubble: React.FC<CardSortBubbleProps> = ({
   const SortBubbleIcon: React.FC = () => {
     return (
       <div className="relative w-[72px]">
-        <Avatar className="flex justify-center items-center bg-gray-200 w-16 h-16">
+        <Avatar className="flex justify-center items-center bg-gray-200 w-16 h-16 shadow-[0_10px_15px_5px_rgba(0,0,0,0.25)]">
           <Image
             src={CardsIcon}
             alt="card sort icon"

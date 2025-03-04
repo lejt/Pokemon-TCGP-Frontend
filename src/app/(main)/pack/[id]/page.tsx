@@ -8,6 +8,9 @@ import { LoadingSpinner } from '@/app/components/LoadingSpinner';
 import { OpenPackView } from '@/app/components/OpenPack';
 import { useEffect, useState } from 'react';
 import { getAuthToken } from '@/app/utils/local-storage';
+import { useCardSetsAndPacks } from '@/app/hooks/cardSets';
+import { CardSet, Pack } from '@/app/interfaces/entity.interface';
+import Image from 'next/image';
 
 const PacksPage: React.FC = () => {
   const router = useRouter();
@@ -31,6 +34,11 @@ const PacksPage: React.FC = () => {
     isLoading: isLoadingPreviewCards,
     // error: errorOnPreviewCards,
   } = usePackPreviewCards(cardSetId, packId);
+  const {
+    data: cardSetsAndPacks,
+    // isLoading,
+    // error
+  } = useCardSetsAndPacks(); //TODO what is auth token already expired?
 
   const [cards, setCards] = useState(newCards);
 
@@ -47,6 +55,14 @@ const PacksPage: React.FC = () => {
   }, [isSuccess, newCards]);
 
   if (!id) return null;
+  if (!Array.isArray(cardSetsAndPacks)) {
+    if (cardSetsAndPacks && cardSetsAndPacks.message) {
+      if (cardSetsAndPacks.message === 'Unauthorized') {
+        router.push('/');
+      }
+    }
+    return;
+  }
 
   const isCardsViewable = cards && cards.length > 0;
   const isAnyLoading = isPendingOpeningPack || isLoadingPreviewCards;
@@ -57,23 +73,50 @@ const PacksPage: React.FC = () => {
     mutate({ cardSetId, packId });
   };
 
+  const boosterImage =
+    cardSetsAndPacks
+      ?.find((cardSet: CardSet) => cardSet.id === cardSetId)
+      ?.packs.find((pack: Pack) => pack.id === packId)?.image ??
+    cardSetsAndPacks?.find((cardSet: CardSet) => cardSet.id === cardSetId)
+      ?.image;
+
   return (
-    <div className="relative flex flex-col flex-grow h-full w-full justify-center items-center mb-24 bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_45%,_rgba(81,215,207,1)_40%,_rgba(106,255,246,1)_70%,_rgba(91,176,255,1)_90%)] border-x-2 border-black">
+    <div className="relative flex flex-col flex-grow px-8 pt-8 h-full w-full bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_55%,_rgba(81,215,207,1)_40%,_rgba(106,255,246,1)_70%,_rgba(91,176,255,1)_90%)] border-x-2 border-black">
       {isAnyLoading && <LoadingSpinner />}
 
       {!isCardsViewable && (
-        <>
-          <PackPreview cards={previewCards} isLoading={isLoadingPreviewCards} />
-          <div
-            className="bg-gray-400 w-[300px] h-[500px] rounded-xl flex justify-center items-center cursor-pointer"
-            onClick={handleClick}
-          >
-            booster image here
+        <div className="h-full grid grid-rows-9 grid-cols-8 grid-flow-col gap-4">
+          <div className="row-start-2 row-span-2 col-start-2 col-span-6 flex justify-center h-full">
+            <PackPreview
+              cards={previewCards}
+              isLoading={isLoadingPreviewCards}
+            />
           </div>
-          <div className="absolute bottom-0">
-            <PackPageFooter />
+          {boosterImage && (
+            <div className="row-start-4 row-span-4 col-start-3 col-span-4 relative flex justify-center items-center">
+              <div className="relative h-full max-h-[400px] w-auto">
+                <Image
+                  src={boosterImage}
+                  alt="booster pack image"
+                  className="rounded-sm object-contain cursor-pointer"
+                  priority
+                  onClick={handleClick}
+                  width={300}
+                  height={400}
+                  style={{
+                    maxHeight: '100%',
+                    width: 'auto',
+                    margin: '0 auto',
+                  }}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+            </div>
+          )}
+          <div className="absolute bottom-[120px] left-0 w-full">
+            <PackPageFooter cardSetsAndPacks={cardSetsAndPacks} />
           </div>
-        </>
+        </div>
       )}
 
       {isOpeningPackView && <OpenPackView cards={cards} setCards={setCards} />}

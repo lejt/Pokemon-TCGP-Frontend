@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
+import Image from 'next/image';
 import { useCardSetsAndPacks } from '../hooks/cardSets';
 import { useRouter } from 'next/navigation';
-import { Card } from './ui/card';
-import { useDragScroll } from '../hooks/useDragScroll';
+import { Card as CardComponent } from './ui/card';
 import { getAuthToken } from '../utils/local-storage';
+import { CardSetFromCardSetAndPacks } from '../interfaces/entity.interface';
 
 export const PacksDisplay: React.FC = () => {
   const router = useRouter();
@@ -18,60 +19,61 @@ export const PacksDisplay: React.FC = () => {
 
   const { data: cardSetsAndPacks } = useCardSetsAndPacks();
 
-  const {
-    scrollRef,
-    isDragging,
-    clickPrevent,
-    handleMouseDown,
-    handleMouseMove,
-    handleMouseUp,
-  } = useDragScroll();
-
-  if (!Array.isArray(cardSetsAndPacks)) return;
+  if (!Array.isArray(cardSetsAndPacks)) {
+    if (cardSetsAndPacks && cardSetsAndPacks.message) {
+      if (cardSetsAndPacks.message === 'Unauthorized') {
+        router.push('/');
+      }
+    }
+    return;
+  }
 
   const handlePackClick = (packId: string) => {
-    if (clickPrevent) return;
     router.push(`/pack/${packId}`);
   };
 
-  const cardsClassName =
-    'min-w-[150px] h-[250px] bg-indigo-200 rounded-xl cursor-pointer flex justify-center items-center select-none';
-
   return (
-    <Card
-      ref={scrollRef}
-      className={`w-full flex gap-4 mb-20 p-4 overflow-x-auto shadow-[5px_10px_25px_rgba(0,0,0,0.5)] cursor-grab rounded-tl-3xl
-        ${isDragging ? 'cursor-grabbing' : ''}`}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseUp}
-      onMouseUp={handleMouseUp}
+    <CardComponent
+      className={`relative w-full h-auto flex gap-4 p-4 overflow-x-auto shadow-[5px_10px_25px_rgba(0,0,0,0.5)] rounded-tl-3xl bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_45%,_rgba(135,85,196,1)_46%,_rgba(135,85,196,1)_60%,_rgba(252,70,107,1)_90%)] row-start-2 row-span-4 overflow-x-auto scrollbar-hide`}
     >
-      {cardSetsAndPacks.map((cardSet) =>
-        cardSet.packs.length > 0 ? (
-          cardSet.packs.map(
-            (
-              pack: any // TODO: update type and remove lint-ignore at top
-            ) => (
-              <div
-                key={`${cardSet.id}-${pack.id}`}
-                className={cardsClassName}
-                onClick={() => handlePackClick(`${cardSet.id}-${pack.id}`)}
-              >
-                <div className="text-center">{pack.image}</div>
+      {cardSetsAndPacks.map((cardSet: CardSetFromCardSetAndPacks) =>
+        cardSet.packs.length > 0
+          ? cardSet.packs.map(
+              (
+                pack: any // TODO: update type and remove lint-ignore at top
+              ) => (
+                <div
+                  className="relative min-w-[100px]"
+                  key={`${cardSet.id}-${pack.id}`}
+                >
+                  <Image
+                    src={pack?.image}
+                    alt="card pack image"
+                    fill
+                    className={`object-contain cursor-pointer`}
+                    onClick={() => handlePackClick(`${cardSet.id}-${pack.id}`)}
+                    draggable={false}
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              )
+            )
+          : cardSet.image && ( // TODO: remove this conditional when Arceus pack image is inserted
+              <div className="relative min-w-[100px]" key={`${cardSet.id}`}>
+                <Image
+                  src={cardSet.image}
+                  alt="card pack image"
+                  fill
+                  className="object-contain cursor-pointer"
+                  onClick={() => handlePackClick(`${cardSet.id}-0`)}
+                  draggable={false}
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
               </div>
             )
-          )
-        ) : (
-          <div
-            key={`${cardSet.id}`}
-            className={cardsClassName}
-            onClick={() => handlePackClick(`${cardSet.id}-0`)}
-          >
-            <div> {cardSet.id}</div>
-          </div>
-        )
       )}
-    </Card>
+    </CardComponent>
   );
 };

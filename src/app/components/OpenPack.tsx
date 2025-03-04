@@ -76,7 +76,7 @@ export const OpenPackView: React.FC<OpenPackPageProps> = ({
         })}
       </div>
       <div
-        className="rounded-full absolute bottom-12 right-12 p-4 border-gray-700 border-4 shadow-[0_10px_15px_5px_rgba(0,0,0,0.25)] cursor-pointer"
+        className="rounded-full absolute bottom-[130px] right-12 p-4 border-gray-300 border-2 shadow-[0_10px_15px_5px_rgba(0,0,0,0.25)] cursor-pointer hover:bg-gray-300"
         onClick={() => setCards([])}
       >
         <Image

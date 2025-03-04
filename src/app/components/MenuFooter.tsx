@@ -8,7 +8,7 @@ import {
 
 export const MenuFooter: React.FC = () => {
   return (
-    <Menubar className="fixed bottom-0 min-w-[600px] rounded-none h-[100px] flex bg-slate-100 drop-shadow-[0px_-20px_10px_rgba(0,0,0,0.2)] border-2 border-black">
+    <Menubar className="fixed bottom-0 min-w-[600px] rounded-none h-[100px] flex bg-gradient-to-r from-slate-300 via-white to-slate-300 drop-shadow-[0px_-20px_10px_rgba(0,0,0,0.2)] border-x-2 border-black border-t-0">
       <MenubarMenu>
         <MenubarTrigger className="h-full w-full">
           <Link
@@ -26,7 +26,7 @@ export const MenuFooter: React.FC = () => {
             href="/cards"
             className="w-full h-full flex justify-center items-center"
           >
-            My Cards
+            Cards
           </Link>
         </MenubarTrigger>
       </MenubarMenu>

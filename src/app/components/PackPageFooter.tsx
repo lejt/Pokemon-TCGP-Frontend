@@ -2,14 +2,15 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { DrawerClose } from './ui/drawer';
-import { useCardSetsAndPacks } from '../hooks/cardSets';
 import Image from 'next/image';
 import BackArrowIcon from '../assets/images/previous-arrow.svg';
 import ChevronRight from '../assets/images/chevron-right.svg';
 import { CustomDrawer } from './CustomDrawer';
 import { getAuthToken } from '../utils/local-storage';
 
-export const PackPageFooter = () => {
+export const PackPageFooter: React.FC<{ cardSetsAndPacks: any }> = ({
+  cardSetsAndPacks,
+}) => {
   const router = useRouter();
   const token = getAuthToken();
 
@@ -19,12 +20,6 @@ export const PackPageFooter = () => {
     }
   }, [router, token]);
 
-  // TODO: could fetch only if other packs section is clicked for optimization
-  const {
-    data: cardSetsAndPacks,
-    // isLoading,
-    // error
-  } = useCardSetsAndPacks();
   if (!Array.isArray(cardSetsAndPacks)) return;
 
   const OpenOtherPacks: React.FC = () => {
@@ -67,12 +62,21 @@ export const PackPageFooter = () => {
                         <DrawerClose key={idx}>
                           <div
                             key={idx}
-                            className="w-[100px] h-[200px] bg-gray-500 rounded-xl flex items-center justify-center shadow-2xl"
+                            className="flex items-center justify-center shadow-2xl"
+                            // className="w-[100px] h-[200px] bg-gray-500 rounded-xl flex items-center justify-center shadow-2xl"
                             onClick={() =>
                               router.push(`/pack/${cardSet.id}-${pack.id}`)
                             }
                           >
-                            {pack.id}
+                            {/* {pack.id} */}
+                            <Image
+                              src={pack.image ?? 'image'}
+                              alt="card pack image"
+                              width={100}
+                              height={200}
+                              style={{ width: '100px', height: 'auto' }}
+                              className="shadow-[5px_10px_8px_rgba(0,0,0,0.8)] rounded-sm"
+                            />
                           </div>
                         </DrawerClose>
                       )
@@ -81,10 +85,19 @@ export const PackPageFooter = () => {
                 ) : (
                   <DrawerClose>
                     <div
-                      className="w-[100px] h-[200px] bg-gray-500 rounded-xl flex items-center shadow-2xl"
+                      className="flex items-center shadow-2xl"
+                      // className="w-[100px] h-[200px] bg-gray-500 rounded-xl flex items-center shadow-2xl"
                       onClick={() => router.push(`/pack/${cardSet.id}-0`)}
                     >
-                      {cardSet.name}
+                      {/* {cardSet.name} */}
+                      <Image
+                        src={cardSet.image ?? 'image'}
+                        alt="card pack image"
+                        width={100}
+                        height={200}
+                        style={{ width: '100px', height: 'auto' }}
+                        className="shadow-[5px_10px_8px_rgba(0,0,0,0.8)] rounded-sm"
+                      />
                     </div>
                   </DrawerClose>
                 )}
@@ -97,8 +110,8 @@ export const PackPageFooter = () => {
   };
 
   return (
-    <div className="grid grid-cols-9 place-items-center w-full overflow-x-hidden pt-3 pb-14">
-      <div className="col-start-2 col-end-4 cursor-pointer px-4 py-2 flex justify-center items-center rounded-full bg-white shadow-[5px_10px_25px_rgba(0,0,0,0.5)]">
+    <div className="grid grid-cols-9 place-items-center w-full py-8 overflow-x-hidden">
+      <div className="col-start-2 col-end-4 cursor-not-allowed px-4 py-2 flex justify-center items-center rounded-full bg-white shadow-[5px_10px_25px_rgba(0,0,0,0.5)]">
         offering rates
       </div>
 

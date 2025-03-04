@@ -119,7 +119,7 @@ export const LoginForm: React.FC = () => {
             placeholder="Enter username"
             required
             autoFocus
-            className="border-2 border-black"
+            className="border-2 border-gray-400"
           />
         </div>
 
@@ -133,7 +133,7 @@ export const LoginForm: React.FC = () => {
             type="password"
             placeholder="Enter password"
             required
-            className="border-2 border-black"
+            className="border-2 border-gray-400"
           />
         </div>
 
@@ -152,13 +152,13 @@ export const LoginForm: React.FC = () => {
             <div className="text-lg">{buttonText()}</div>
           </Button>
           <Separator className="w-full h-[1px] bg-black mt-6 mb-4" />
-          <div className="text-gray-600 text-center">
+          <div className="text-gray-600 text-center text-sm">
             {isLoginForm
               ? "Don't have an account?"
               : 'Already have an account?'}
             &nbsp;
             <span
-              className="cursor-pointer text-blue-900"
+              className="cursor-pointer text-blue-900 text-sm"
               onClick={handleSignUp}
             >
               {isLoginForm ? 'Sign up here.' : 'Log in.'}
