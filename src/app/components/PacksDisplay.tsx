@@ -53,7 +53,7 @@ export const PacksDisplay: React.FC = () => {
                   key={`${cardSet.id}-${pack.id}`}
                 >
                   <Image
-                    src={pack?.image}
+                    src={pack?.image ?? ''}
                     alt="card pack image"
                     fill
                     className="object-contain cursor-pointer"
