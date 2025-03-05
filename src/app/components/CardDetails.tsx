@@ -34,7 +34,7 @@ export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
   };
 
   return (
-    <div className="flex flex-col items-center w-[600px] gap-2 mb-32">
+    <div className="flex flex-col items-center w-[600px] gap-2 mb-32 mt-12">
       <UserCardImage userCard={userCard} large={true} />
       <div className="flex flex-col items-center mt-6">
         <div className="text-3xl font-bold">{card.name}</div>

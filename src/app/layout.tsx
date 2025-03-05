@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className="h-full">
-      <body className="bg-center bg-[url(./assets/images/town_image.png)] bg-auto h-full w-full">
+      <body className="bg-center bg-[url(./assets/images/manor-town.webp)] h-full w-full">
         <QueryClientProvider client={queryClient}>
           <div className="h-full flex justify-center">{children}</div>
           <Toaster />

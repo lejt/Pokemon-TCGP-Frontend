@@ -113,7 +113,7 @@ export const UserCardToAllCardComparison: React.FC<
                 )}
               </div>
 
-              <Separator className="bg-black mt-3 h-1 mb-8" />
+              <Separator className="bg-gray-500 mt-3 h-1 mb-8" />
 
               <div className="grid grid-cols-5 gap-3 place-items-center mb-16">
                 {cards?.map((card) => {

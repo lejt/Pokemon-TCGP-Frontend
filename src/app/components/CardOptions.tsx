@@ -20,7 +20,7 @@ export const CardOptions: React.FC<CardOptionsProps> = (props) => {
   const { count, toggleFetch, setToggleFetch } = props;
 
   return (
-    <Card className="flex flex-col sticky top-[-90px] z-20 w-full min-h-36 border-none p-2 bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_50%,_rgba(152,152,152,1)_51%,_rgba(209,209,209,1)_60%,_rgba(233,233,233,1)_70%,_rgba(255,255,255,1)_83%)] drop-shadow-xl mt-8">
+    <Card className="flex flex-col sticky top-[-90px] z-20 w-full min-h-36 border-none p-2 bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_50%,_rgba(152,152,152,1)_51%,_rgba(209,209,209,1)_60%,_rgba(233,233,233,1)_70%,_rgba(255,255,255,1)_83%)] shadow-[5px_10px_10px_rgba(0,0,0,0.5)] mt-8">
       <div className="flex flex-grow flex-start gap-6 m-4">
         <CardOptionWidget text="Binders" svg={BinderIcon} width={30} />
         <CardOptionWidget

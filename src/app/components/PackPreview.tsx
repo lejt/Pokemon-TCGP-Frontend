@@ -25,7 +25,7 @@ export const PackPreview: React.FC<PackPreviewProps> = ({
   return (
     <CardComponent
       ref={scrollRef}
-      className={`max-w-[500px] w-full rounded-3xl flex justify-start gap-2 overflow-x-auto drop-shadow-[0_5px_5px_rgba(0,0,0,0.25)] shadow-[inset_5px_5px_10px_rgba(0,0,0,0.5)] px-4 cursor-grab select-none ${
+      className={`max-w-[500px] w-full rounded-3xl flex justify-start gap-2 overflow-x-auto shadow-[inset_5px_5px_10px_rgba(0,0,0,0.5)] border-none px-4 cursor-grab select-none ${
         isDragging ? 'cursor-grabbing' : ''
       }`}
       onMouseDown={handleMouseDown}

@@ -12,12 +12,15 @@ import CharizardCard from '@/app/assets/images/charizard-ex-card.png';
 import PikachuCard from '@/app/assets/images/pikachu-card.png';
 import EeveeCard from '@/app/assets/images/eevee-card.png';
 import Image, { StaticImageData } from 'next/image';
-import { LoadingSpinner } from './components/LoadingSpinner';
+import { LoadingPage } from './components/LoadingPage';
+import { useState } from 'react';
 import { removeAuthToken } from './utils/local-storage';
 
 const LandingPage: React.FC = () => {
   const router = useRouter();
   const { toast } = useToast();
+  const [showLoadingScreen, setShowLoadingScreen] = useState<boolean>(false); // TODO: move this to global state management if implemented
+  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
   const authenticateUser = useMutation({
     mutationFn: async () => {
@@ -31,9 +34,14 @@ const LandingPage: React.FC = () => {
         });
       } else {
         if (isAuthenticated) {
-          router.push('/home');
+          setShowLoadingScreen(true);
+          setTimeout(() => {
+            setShowLoadingScreen(false);
+            router.push('/home');
+          }, 1300);
         } else {
           removeAuthToken();
+          setOpenDrawer(true);
         }
       }
     },
@@ -69,11 +77,7 @@ const LandingPage: React.FC = () => {
   };
 
   if (authenticateUser.isPending) {
-    return (
-      <div className="h-full w-full flex items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingPage />;
   }
 
   const PageContent: React.FC = () => {
@@ -104,7 +108,7 @@ const LandingPage: React.FC = () => {
           style={'top-20  right-3/4'}
         />
 
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black font-bold text-6xl w-[500px] text-gray-800 z-20">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black font-bold text-6xl w-[500px] text-gray-800 z-10">
           Pokémon TCG Pocket
         </div>
         <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black font-bold text-xl animate-pulse">
@@ -115,13 +119,16 @@ const LandingPage: React.FC = () => {
   };
 
   return (
-    // <div className="h-full w-full border-4 border-yellow-800">
-    <CustomDrawer
-      headerText=""
-      drawerTriggerChildren={<PageContent />}
-      drawerContentChildren={<LoginForm />}
-    />
-    // </div>
+    <>
+      {showLoadingScreen && <LoadingPage />}
+      <CustomDrawer
+        headerText=""
+        drawerTriggerChildren={<PageContent />}
+        drawerContentChildren={<LoginForm />}
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+      />
+    </>
   );
 };
 

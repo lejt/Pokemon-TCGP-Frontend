@@ -99,7 +99,7 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="p-4 w-[400px] flex-col justify-items-center">
+    <div className="p-4 w-[400px] flex-col justify-items-center mt-6">
       <div className="w-full flex flex-col text-left mb-12 ml-2">
         <div className="text-gray-600 mb-4">
           {isLoginForm ? 'Welcome back!' : 'Start your Pokemon card journey'}

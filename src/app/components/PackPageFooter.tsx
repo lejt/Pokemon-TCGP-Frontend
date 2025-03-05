@@ -25,7 +25,7 @@ export const PackPageFooter: React.FC<{ cardSetsAndPacks: any }> = ({
   const OpenOtherPacks: React.FC = () => {
     return (
       <div className="flex pl-8 h-16 justify-start items-center ">
-        <div>Select other booster packs</div>
+        <div className="text-sm">Select other booster packs</div>
         <Image
           src={ChevronRight}
           alt="right arrow icon"
@@ -110,8 +110,8 @@ export const PackPageFooter: React.FC<{ cardSetsAndPacks: any }> = ({
   };
 
   return (
-    <div className="grid grid-cols-9 place-items-center w-full py-8 overflow-x-hidden">
-      <div className="col-start-2 col-end-4 cursor-not-allowed px-4 py-2 flex justify-center items-center rounded-full bg-white shadow-[5px_10px_25px_rgba(0,0,0,0.5)]">
+    <div className="grid grid-cols-9 place-items-center w-full pb-8 overflow-x-hidden">
+      <div className="text-sm col-start-2 col-end-4 cursor-not-allowed px-5 py-3 flex justify-center items-center rounded-full bg-white shadow-[5px_10px_25px_rgba(0,0,0,0.5)]">
         offering rates
       </div>
 
@@ -121,10 +121,10 @@ export const PackPageFooter: React.FC<{ cardSetsAndPacks: any }> = ({
       >
         <Image
           src={BackArrowIcon}
-          width={50}
-          height={50}
+          width={40}
+          height={40}
           alt="go previous button"
-          style={{ width: '50px', height: '50px' }}
+          style={{ width: '40px', height: '40px' }}
         />
       </div>
 

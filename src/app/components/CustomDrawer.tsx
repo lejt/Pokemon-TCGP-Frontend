@@ -13,6 +13,8 @@ interface CustomDrawerProps {
   drawerTriggerChildren?: React.ReactNode;
   drawerContentChildren: React.ReactNode;
   drawerHeight?: string;
+  open?: boolean;
+  onClose?: () => void;
 }
 
 export const CustomDrawer: React.FC<CustomDrawerProps> = (props) => {
@@ -21,10 +23,12 @@ export const CustomDrawer: React.FC<CustomDrawerProps> = (props) => {
     drawerTriggerChildren,
     drawerContentChildren,
     drawerHeight = 'h-3/4',
+    open,
+    onClose,
   } = props;
 
   return (
-    <Drawer>
+    <Drawer open={open} onClose={onClose}>
       <DrawerTrigger className="relative">
         {drawerTriggerChildren}
       </DrawerTrigger>
@@ -35,7 +39,7 @@ export const CustomDrawer: React.FC<CustomDrawerProps> = (props) => {
           <DrawerDescription />
         </DrawerHeader>
 
-        <div className="flex flex-col items-center w-full h-full mx-auto bg-gray-200 pt-8 pb-12 z-1 overflow-y-auto">
+        <div className="flex flex-col items-center w-full h-full mx-auto bg-gray-200 z-1 overflow-y-auto">
           {drawerContentChildren}
         </div>
       </DrawerContent>

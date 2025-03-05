@@ -110,7 +110,7 @@ const CardsPage: React.FC = () => {
   const isComparingUserCardsToDB = isUserCardsReady && toggleFetch;
 
   return (
-    <div className="flex flex-col w-full relative">
+    <div className="flex flex-col flex-grow w-full relative">
       <CardPageHeader />
       <div className="relative px-3 z-3 flex flex-col flex-grow w-full justify-center items-center border-x-2 border-black bg-gray-300">
         <CardOptions
@@ -137,7 +137,7 @@ const CardsPage: React.FC = () => {
         {(isLoadingCards || isRenderingUserCards || isUserCardsEmpty) && (
           <Card
             ref={containerRef}
-            className="w-full grid grid-cols-3 gap-3 place-items-center p-3 mb-[250px] mt-5 drop-shadow-xl z-2"
+            className="w-full grid grid-cols-3 gap-3 place-items-center p-3 mb-[250px] mt-5 shadow-[5px_10px_10px_rgba(0,0,0,0.5)] z-2"
           >
             {isLoadingCards &&
               // arbitrary amount of skeleton cards loading

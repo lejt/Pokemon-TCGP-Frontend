@@ -11,6 +11,8 @@ import { getAuthToken } from '@/app/utils/local-storage';
 import { useCardSetsAndPacks } from '@/app/hooks/cardSets';
 import { CardSet, Pack } from '@/app/interfaces/entity.interface';
 import Image from 'next/image';
+import { getBackgroundColor } from '@/app/utils/styling';
+import { LoadingPage } from '@/app/components/LoadingPage';
 
 const PacksPage: React.FC = () => {
   const router = useRouter();
@@ -41,12 +43,22 @@ const PacksPage: React.FC = () => {
   } = useCardSetsAndPacks(); //TODO what is auth token already expired?
 
   const [cards, setCards] = useState(newCards);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
 
   useEffect(() => {
     if (!token) {
       router.push('/');
     }
-  }, [router, token]);
+  }, [token, router]);
+
+  useEffect(() => {
+    if (
+      !Array.isArray(cardSetsAndPacks) &&
+      cardSetsAndPacks?.message === 'Unauthorized'
+    ) {
+      router.push('/');
+    }
+  }, [cardSetsAndPacks, router]);
 
   useEffect(() => {
     if (isSuccess && newCards) {
@@ -54,34 +66,48 @@ const PacksPage: React.FC = () => {
     }
   }, [isSuccess, newCards]);
 
-  if (!id) return null;
   if (!Array.isArray(cardSetsAndPacks)) {
-    if (cardSetsAndPacks && cardSetsAndPacks.message) {
-      if (cardSetsAndPacks.message === 'Unauthorized') {
-        router.push('/');
-      }
-    }
+    return <LoadingSpinner />;
+  }
+
+  if (!id) return null;
+
+  const cardSetData = cardSetsAndPacks.find(
+    (cardSet: CardSet) => cardSet.id === cardSetId
+  );
+
+  if (!cardSetData) {
     return;
   }
+  const handleClick = () => {
+    if (isAnyLoading) return;
+
+    // Show the loading screen for 1.3s before loading new cards
+    setShowLoadingScreen(true); // TODO: move to state management if implemented
+
+    mutate({ cardSetId, packId });
+    setTimeout(() => {
+      setShowLoadingScreen(false);
+    }, 1300);
+  };
+
+  const boosterImage =
+    cardSetData.packs.find((pack: Pack) => pack.id === packId)?.image ??
+    cardSetData.image;
+  const cardSetName = cardSetData.name;
 
   const isCardsViewable = cards && cards.length > 0;
   const isAnyLoading = isPendingOpeningPack || isLoadingPreviewCards;
   const isOpeningPackView = isCardsViewable && !isAnyLoading;
 
-  const handleClick = () => {
-    if (isAnyLoading) return;
-    mutate({ cardSetId, packId });
-  };
-
-  const boosterImage =
-    cardSetsAndPacks
-      ?.find((cardSet: CardSet) => cardSet.id === cardSetId)
-      ?.packs.find((pack: Pack) => pack.id === packId)?.image ??
-    cardSetsAndPacks?.find((cardSet: CardSet) => cardSet.id === cardSetId)
-      ?.image;
-
   return (
-    <div className="relative flex flex-col flex-grow px-8 pt-8 h-full w-full bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_55%,_rgba(81,215,207,1)_40%,_rgba(106,255,246,1)_70%,_rgba(91,176,255,1)_90%)] border-x-2 border-black">
+    <div
+      className={`relative flex flex-col flex-grow px-8 pt-8 h-full w-full border-x-2 border-black ${getBackgroundColor(
+        cardSetName
+      )}`}
+    >
+      {showLoadingScreen && <LoadingPage />}
+
       {isAnyLoading && <LoadingSpinner />}
 
       {!isCardsViewable && (
@@ -98,7 +124,7 @@ const PacksPage: React.FC = () => {
                 <Image
                   src={boosterImage}
                   alt="booster pack image"
-                  className="rounded-sm object-contain cursor-pointer"
+                  className="rounded-sm object-contain cursor-pointer animate-[var(--animate-vertical-wiggle)]"
                   priority
                   onClick={handleClick}
                   width={300}
