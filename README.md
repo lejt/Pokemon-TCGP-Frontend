@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pokémon TCG Pocket (Frontend)
 
-## Getting Started
+This is my personal development project that emulates the recent Pokemon TCG Pocket game in web version. The app allows users to open booster packs, collect cards, and track their collection.
 
-First, run the development server:
+**Project Link** - [click here!](https://pokemon-tcgp-jackytam.vercel.app/)
 
-```bash
+<img src="src/app//assets/images/readme-cardpage.jpg" width="33%">
+<img src="src/app//assets/images/readme-booster.jpg" width="33%">
+<img src="src/app//assets/images/readme-cardopen.jpg" width="33%">
+
+## Features
+
+- **Authentication** - Users can sign up, log in, and stay logged in with an auth token. Expired tokens trigger automatic redirection
+- **Booster Pack System** - Select and open booster packs to reveal new cards (currently have 7 booster packs available)
+- **Collection Management** - View collected cards with sorting by card id, rarity, collected date, and quantity
+- **Compare Cards** - Compare owned cards vs not owned cards in database
+- **View Card Details** - View detailed card states, including HP, attacks, weaknesses, effects, illustrator name, evolutions and more
+
+## Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org/docs)
+- **Language**: [TypeScript](https://typescriptlang.org)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/docs/installation/using-vite)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/docs/installation)
+- **Icons**: [Font Awesome](https://docs.fontawesome.com/)
+- **Database**: PostgreSQL (via backend API)
+
+## Installation & Getting Started
+
+Prerequisites
+
+- npm or yarn package manager
+
+Install dependencies:
+
+```
+npm install
+```
+
+Create a `.env.development` file in the root folder with variabls:
+
+```
+NEXT_PUBLIC_PUBLIC_API_HOST=http://localhost:xxxx
+```
+
+Run the development server:
+
+```
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Communication
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This frontend interacts with a [**NestJS backend**](https://github.com/lejt/PokemonTCGP-Backend) through RESTful APIs. Ensure the backend is running for proper functionality.
 
-## Learn More
+## Future Enhancements
 
-To learn more about Next.js, take a look at the following resources:
+- **Deck Building**: Enable users to create and manage decks
+- **Battle System**: Implement battle mechanics (need web sockets)
+- **Trading feature**: Allow users to trade cards
+- **Implement booster pack opening wall**: limit opening rate may encourage users to trade
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is for educational purposes. No official affiliation with Pokémon or Nintendo.
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This repo is deployed on [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
