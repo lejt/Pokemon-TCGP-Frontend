@@ -4,9 +4,11 @@ This is my personal development project that emulates the recent Pokemon TCG Poc
 
 **Project Link** - [click here!](https://pokemon-tcgp-jackytam.vercel.app/)
 
-<img src="src/app//assets/images/readme-cardpage.jpg" width="33%">
-<img src="src/app//assets/images/readme-booster.jpg" width="33%">
-<img src="src/app//assets/images/readme-cardopen.jpg" width="33%">
+<div style="display: flex; justify-content: space-evenly;">
+  <img src="src/app//assets/images/readme-cardpage.jpg" width="30%">
+  <img src="src/app//assets/images/readme-booster.jpg" width="30%">
+  <img src="src/app//assets/images/readme-cardopen.jpg" width="30%">
+</div>
 
 ## Features
 
