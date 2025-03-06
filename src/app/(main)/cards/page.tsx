@@ -137,7 +137,7 @@ const CardsPage: React.FC = () => {
         {(isLoadingCards || isRenderingUserCards || isUserCardsEmpty) && (
           <Card
             ref={containerRef}
-            className="w-full grid grid-cols-3 gap-3 place-items-center p-3 mb-[250px] mt-5 shadow-[5px_10px_10px_rgba(0,0,0,0.5)] z-2"
+            className="w-full grid grid-cols-3 gap-3 place-items-center p-3 mb-[150px] mt-5 shadow-[5px_10px_10px_rgba(0,0,0,0.5)] z-2"
           >
             {isLoadingCards &&
               // arbitrary amount of skeleton cards loading
@@ -166,7 +166,7 @@ const CardsPage: React.FC = () => {
             {userCards && ( // TODO: move CardSortBubble to layout layer and use state management for sortOrder state
               <div
                 className={`${
-                  isElementFixed ? 'hidden' : 'absolute bottom-10 right-6'
+                  isElementFixed ? 'hidden' : 'absolute bottom-[180px] right-8'
                 } max-w-[600px] flex justify-center z-50`}
               >
                 {!toggleFetch && (

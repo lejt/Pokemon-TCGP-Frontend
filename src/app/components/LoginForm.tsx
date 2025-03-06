@@ -57,7 +57,7 @@ export const LoginForm: React.FC = () => {
         password,
       });
 
-      if (signUpResponse) {
+      if (!signUpResponse.message) {
         // auto logs in user after successful sign up
         const signInResponse = await signInUser.mutateAsync({
           username,
@@ -68,9 +68,8 @@ export const LoginForm: React.FC = () => {
           accessToken: signInResponse?.accessToken,
         };
       }
-      return {
-        message: 'Sign up successful, but login failed. Try logging in again.',
-      };
+
+      return signUpResponse;
     }
   };
 
@@ -137,9 +136,16 @@ export const LoginForm: React.FC = () => {
           />
         </div>
 
-        {state?.message && (
-          <p className="text-red-500 text-sm">{state.message}</p>
-        )}
+        {state?.message &&
+          (Array.isArray(state.message) ? (
+            state.message.map((msg: string, idx: number) => (
+              <p className="text-red-500 text-sm" key={idx}>
+                {msg}
+              </p>
+            ))
+          ) : (
+            <p className="text-red-500 text-sm">{state.message}</p>
+          ))}
 
         <div>
           <Button
