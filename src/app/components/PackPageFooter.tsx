@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { DrawerClose } from './ui/drawer';
@@ -7,10 +6,15 @@ import BackArrowIcon from '../assets/images/previous-arrow.svg';
 import ChevronRight from '../assets/images/chevron-right.svg';
 import { CustomDrawer } from './CustomDrawer';
 import { getAuthToken } from '../utils/local-storage';
+import {
+  CardSetFromCardSetAndPacks,
+  Pack,
+} from '../interfaces/entity.interface';
+import { PackEmpty } from './PackEmpty';
 
-export const PackPageFooter: React.FC<{ cardSetsAndPacks: any }> = ({
-  cardSetsAndPacks,
-}) => {
+export const PackPageFooter: React.FC<{
+  cardSetsAndPacks: CardSetFromCardSetAndPacks[];
+}> = ({ cardSetsAndPacks }) => {
   const router = useRouter();
   const token = getAuthToken();
 
@@ -25,7 +29,7 @@ export const PackPageFooter: React.FC<{ cardSetsAndPacks: any }> = ({
   const OpenOtherPacks: React.FC = () => {
     return (
       <div className="flex pl-8 h-16 justify-start items-center ">
-        <div className="text-sm">Select other booster packs</div>
+        <div className="text-sm h-full">Select other booster packs</div>
         <Image
           src={ChevronRight}
           alt="right arrow icon"
@@ -54,50 +58,49 @@ export const PackPageFooter: React.FC<{ cardSetsAndPacks: any }> = ({
                 </div>
                 {cardSet.packs.length ? (
                   <div className="flex justify-evenly gap-4">
-                    {cardSet.packs.map(
-                      (
-                        pack: any,
-                        idx: number // TODO: replace any and remove lint-ignore at top
-                      ) => (
-                        <DrawerClose key={idx}>
-                          <div
-                            key={idx}
-                            className="flex items-center justify-center shadow-2xl"
-                            // className="w-[100px] h-[200px] bg-gray-500 rounded-xl flex items-center justify-center shadow-2xl"
-                            onClick={() =>
-                              router.push(`/pack/${cardSet.id}-${pack.id}`)
-                            }
-                          >
-                            {/* {pack.id} */}
+                    {cardSet.packs.map((pack: Pack, idx: number) => (
+                      <DrawerClose key={idx}>
+                        <div
+                          key={idx}
+                          className="flex items-center justify-center rounded-xl"
+                          onClick={() =>
+                            router.push(`/pack/${cardSet.id}-${pack.id}`)
+                          }
+                        >
+                          {pack.image ? (
                             <Image
-                              src={pack.image ?? 'image'}
+                              src={pack.image}
                               alt="card pack image"
                               width={100}
                               height={200}
-                              style={{ width: '100px', height: 'auto' }}
+                              style={{ width: '100%', height: 'auto' }}
                               className="shadow-[5px_10px_8px_rgba(0,0,0,0.8)] rounded-sm"
                             />
-                          </div>
-                        </DrawerClose>
-                      )
-                    )}
+                          ) : (
+                            <PackEmpty />
+                          )}
+                        </div>
+                      </DrawerClose>
+                    ))}
                   </div>
                 ) : (
                   <DrawerClose>
                     <div
                       className="flex items-center shadow-2xl"
-                      // className="w-[100px] h-[200px] bg-gray-500 rounded-xl flex items-center shadow-2xl"
                       onClick={() => router.push(`/pack/${cardSet.id}-0`)}
                     >
-                      {/* {cardSet.name} */}
-                      <Image
-                        src={cardSet.image ?? 'image'}
-                        alt="card pack image"
-                        width={100}
-                        height={200}
-                        style={{ width: '100px', height: 'auto' }}
-                        className="shadow-[5px_10px_8px_rgba(0,0,0,0.8)] rounded-sm"
-                      />
+                      {cardSet.image ? (
+                        <Image
+                          src={cardSet.image}
+                          alt="card pack image"
+                          width={100}
+                          height={200}
+                          style={{ width: '100%', height: 'auto' }}
+                          className="shadow-[5px_10px_8px_rgba(0,0,0,0.8)] rounded-sm"
+                        />
+                      ) : (
+                        <PackEmpty />
+                      )}
                     </div>
                   </DrawerClose>
                 )}
@@ -111,8 +114,8 @@ export const PackPageFooter: React.FC<{ cardSetsAndPacks: any }> = ({
 
   return (
     <div className="grid grid-cols-9 place-items-center w-full pb-8 overflow-x-hidden">
-      <div className="text-sm col-start-2 col-end-4 cursor-not-allowed px-5 py-3 flex justify-center items-center rounded-full bg-white shadow-[5px_10px_25px_rgba(0,0,0,0.5)]">
-        offering rates
+      <div className="text-sm col-start-2 col-end-4 cursor-not-allowed px-5 py-3 flex justify-center items-center rounded-full bg-white shadow-[5px_10px_25px_rgba(0,0,0,0.5)] overflow-hidden text-wrap">
+        Offering rates
       </div>
 
       <div
@@ -128,7 +131,7 @@ export const PackPageFooter: React.FC<{ cardSetsAndPacks: any }> = ({
         />
       </div>
 
-      <div className="col-start-7 col-end-10 w-full cursor-pointer rounded-l-full bg-white shadow-[5px_10px_25px_rgba(0,0,0,0.5)]">
+      <div className="col-start-7 col-end-10 w-full cursor-pointer rounded-l-full bg-white shadow-[5px_10px_25px_rgba(0,0,0,0.5)] overflow-hidden">
         <CustomDrawer
           headerText="Select Expansion"
           drawerTriggerChildren={<OpenOtherPacks />}

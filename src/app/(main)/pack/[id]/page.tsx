@@ -40,7 +40,7 @@ const PacksPage: React.FC = () => {
     data: cardSetsAndPacks,
     // isLoading,
     // error
-  } = useCardSetsAndPacks(); //TODO what is auth token already expired?
+  } = useCardSetsAndPacks();
 
   const [cards, setCards] = useState(newCards);
   const [showLoadingScreen, setShowLoadingScreen] = useState(false);

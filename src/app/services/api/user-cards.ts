@@ -1,5 +1,5 @@
 import { getHost } from '@/app/constants/constants';
-import { getAuthToken } from '@/app/utils/local-storage';
+import { makeProtectedGetRequest } from '@/app/utils/makeRequest';
 
 interface SortByProp {
   field?: string;
@@ -8,9 +8,6 @@ interface SortByProp {
 
 export const userCardsApi = {
   getUserCards: async (sortBy?: SortByProp) => {
-    const token = getAuthToken();
-    if (!token) return false;
-
     let url = `${getHost()}/users/me/user-cards`;
     if (sortBy && sortBy.field && sortBy.order) {
       const queryParams = new URLSearchParams({
@@ -21,22 +18,9 @@ export const userCardsApi = {
       url += `?${queryParams}`;
     }
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      // must return error as message instead of throw (error message from backend)
-      return {
-        message:
-          data.message || 'Failed to load cards from user. Try again later',
-      };
-    }
-    return data;
+    return makeProtectedGetRequest(
+      url,
+      'Failed to load cards from user. Try again later'
+    );
   },
 };

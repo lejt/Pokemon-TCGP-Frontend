@@ -1,20 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { UserCard } from '../interfaces/entity.interface';
+import { UserCard, Ability, Attack } from '../interfaces/entity.interface';
 import { UserCardImage } from './UserCardImage';
 import { Card as CardComponent } from './ui/card';
 
 export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
   if (!userCard) return;
-  const card: any = userCard.card; // TODO: import card object interface from backend, remove lint ignore at top
+  const card = userCard.card;
 
   const boxShadowInsetStyle = 'shadow-[inset_5px_5px_15px_rgba(0,0,0,0.35)]';
   const titleElementStyle = `text-center rounded-3xl bg-gray-300 ${boxShadowInsetStyle} flex justify-center items-center`;
 
-  const RoundedElement: React.FC<{ title: string; value: string }> = ({
-    title,
-    value,
-  }) => {
+  const RoundedElement: React.FC<{
+    title: string;
+    value?: string | number;
+  }> = ({ title, value }) => {
+    if (!value) return;
+
     return (
       <div className={`flex rounded-full w-full p-2 ${boxShadowInsetStyle}`}>
         <div className="bg-gray-300 text-center w-32 rounded-l-full">
@@ -52,48 +53,46 @@ export const CardDetails: React.FC<{ userCard: UserCard }> = ({ userCard }) => {
         <>
           {card.description && <DescriptionElement text={card.description} />}
 
-          {card.abilities.length > 0 &&
-            card.abilities.map((ability: any, idx: number) => (
-              <div className="flex flex-col w-full" key={idx}>
-                <div className="flex items-center justify-center">
-                  <div className={`${titleElementStyle} py-1 px-20`}>
-                    {ability.type}
+          {card.abilities?.length
+            ? card.abilities.map((ability: Ability, idx: number) => (
+                <div className="flex flex-col w-full" key={idx}>
+                  <div className="flex items-center justify-center">
+                    <div className={`${titleElementStyle} py-1 px-20`}>
+                      {ability.type}
+                    </div>
+                    <div className="w-full ml-4 text-xl font-bold">
+                      {ability.name}
+                    </div>
                   </div>
-                  <div className="w-full ml-4 text-xl font-bold">
-                    {ability.name}
-                  </div>
+                  <div className="mt-2">{ability.effect}</div>
                 </div>
-                <div className="mt-2">{ability.effect}</div>
-              </div>
-            ))}
+              ))
+            : null}
 
           <div className={`${titleElementStyle} p-1 w-full mt-6`}>Attacks</div>
-          {card.attacks.map(
-            (
-              attack: { cost: string[]; name: string; damage: number },
-              idx: number
-            ) => (
-              <div className="flex justify-between w-full mb-6" key={idx}>
-                <div className="flex gap-1">
-                  {attack.cost.map((energy: string, idx: number) => (
-                    <div key={idx}>{energy}</div>
-                  ))}
+          {card.attacks?.length
+            ? card.attacks.map((attack: Attack, idx: number) => (
+                <div className="flex justify-between w-full mb-6" key={idx}>
+                  <div className="flex gap-1">
+                    {attack.cost.map((energy: string, idx: number) => (
+                      <div key={idx}>{energy}</div>
+                    ))}
+                  </div>
+                  <div>{attack.name}</div>
+                  <div>{attack.damage}</div>
                 </div>
-                <div>{attack.name}</div>
-                <div>{attack.damage}</div>
-              </div>
-            )
-          )}
+              ))
+            : null}
 
           <RoundedElement title="Pokemon" value={card.stage} />
           <RoundedElement title="Type" value={card.types[0]} />
           <RoundedElement title="HP" value={card.hp} />
-          {card.weakness.length > 0 && (
+          {card.weakness?.length ? (
             <RoundedElement
               title="Weakness"
               value={`${card.weakness[0].type} ${card.weakness[0].value}`}
             />
-          )}
+          ) : null}
           <RoundedElement title="Retreat" value={card.retreat} />
         </>
       )}

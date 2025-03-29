@@ -32,13 +32,13 @@ export const MenuFooter: React.FC = () => {
       </MenubarMenu>
       <MenubarSeparator className="bg-gray-400 h-[50%] w-2" />
       <MenubarMenu>
-        <MenubarTrigger className="h-full w-full flex justify-center cursor-not-allowed">
+        <MenubarTrigger className="h-full w-full flex justify-center cursor-not-allowed text-gray-500">
           Friends
         </MenubarTrigger>
       </MenubarMenu>
       <MenubarSeparator className="bg-gray-400 h-[50%] w-2" />
       <MenubarMenu>
-        <MenubarTrigger className="h-full w-full flex justify-center cursor-not-allowed">
+        <MenubarTrigger className="h-full w-full flex justify-center cursor-not-allowed text-gray-500">
           Battle
         </MenubarTrigger>
       </MenubarMenu>

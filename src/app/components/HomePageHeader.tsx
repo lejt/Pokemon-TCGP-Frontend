@@ -29,15 +29,15 @@ export const HomePageHeader: React.FC = () => {
 
       <div className="flex justify-center absolute bottom-[-37px]">
         <div className="w-[150px] h-[150px] absolute bottom-[-20px] z-1 rounded-full overflow-x-visible flex items-end justify-center shadow-[5px_10px_25px_rgba(0,0,0,0.1)] bg-gradient-to-r from-red-600 via-red-400 to-red-600 border-2 border-black"></div>
-        <div className="w-[30px] h-[30px] absolute bottom-[38px] bg-gray-800 rounded-full z-10"></div>
-        <div className="w-[20px] h-[20px] absolute bottom-[43px] bg-gray-100 rounded-full z-10"></div>
-        <div className="w-[14px] h-[14px] absolute bottom-[46px] rounded-full border-2 border-black z-20"></div>
+        <div className="w-[30px] h-[30px] absolute bottom-[38px] bg-gray-800 rounded-full z-30"></div>
+        <div className="w-[20px] h-[20px] absolute bottom-[43px] bg-gray-100 rounded-full z-40"></div>
+        <div className="w-[14px] h-[14px] absolute bottom-[46px] rounded-full border-2 border-black z-50"></div>
       </div>
-      <div className="z-50 text-gray-900 font-semibold text-md [writing-mode:sideways-lr] absolute top-0 left-2 h-auto text-start pb-7">
+      <div className="z-50 text-gray-800 font-semibold text-md [writing-mode:sideways-lr] absolute top-0 left-2 h-auto text-start pb-7 opacity-60">
         Pokémon TCG Pocket
       </div>
 
-      <Separator className="h-2 mb-3 bg-[linear-gradient(90deg,_rgba(34,193,195,1)_0%,_rgba(105,238,204,1)_30%,_rgba(178,249,150,1)_70%,_rgba(253,187,45,1)_100%)] animate-pulse border-y-2 border-black" />
+      <Separator className="h-2 mb-3 bg-[linear-gradient(90deg,_rgba(34,193,195,1)_0%,_rgba(105,238,204,1)_30%,_rgba(178,249,150,1)_70%,_rgba(253,187,45,1)_100%)] z-20 border-y-2 border-black" />
     </div>
   );
 };

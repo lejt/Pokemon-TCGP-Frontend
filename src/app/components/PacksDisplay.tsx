@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useCardSetsAndPacks } from '../hooks/cardSets';
@@ -42,7 +41,7 @@ export const PacksDisplay: React.FC = () => {
 
   return (
     <CardComponent
-      className={`relative w-full h-auto flex gap-4 p-4 overflow-x-auto rounded-tl-3xl row-start-2 row-span-4 border-none overflow-x-auto bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_45%,_rgba(135,85,196,1)_46%,_rgba(135,85,196,1)_60%,_rgba(252,70,107,1)_90%)] shadow-[inset_5px_5px_10px_rgba(0,0,0,0.5)]`}
+      className={`relative w-full h-auto flex gap-4 p-4 overflow-x-auto rounded-tl-3xl row-start-2 row-span-4 overflow-x-auto bg-[linear-gradient(354deg,_rgba(255,255,255,1)_0%,_rgba(255,255,255,1)_45%,_rgba(135,85,196,1)_46%,_rgba(135,85,196,1)_60%,_rgba(252,70,107,1)_90%)] shadow-[inset_5px_5px_10px_rgba(0,0,0,0.5)]`}
     >
       {Array.isArray(cardSetsAndPacks) &&
         cardSetsAndPacks.map((cardSet: CardSetFromCardSetAndPacks) =>
