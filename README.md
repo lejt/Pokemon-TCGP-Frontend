@@ -10,6 +10,8 @@ This is my personal development project that emulates the recent Pokemon TCG Poc
   <img src="src/app//assets/images/readme-cardopen.jpg" width="30%">
 </div>
 
+[[Watch the Demo]](https://youtu.be/seL80GshFCo)
+
 ## Features
 
 - **Authentication** - Users can sign up, log in, and stay logged in with an auth token. Expired tokens trigger automatic redirection
