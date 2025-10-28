@@ -19,6 +19,8 @@ interface UserCardToAllCardComparisonProps {
   userCards?: UserCard[];
 }
 
+// TODO: fix crash when scroll to bottom of page
+
 export const UserCardToAllCardComparison: React.FC<
   UserCardToAllCardComparisonProps
 > = ({ userCards = [] }) => {

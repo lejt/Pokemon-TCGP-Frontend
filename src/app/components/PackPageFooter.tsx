@@ -29,7 +29,7 @@ export const PackPageFooter: React.FC<{
   const OpenOtherPacks: React.FC = () => {
     return (
       <div className="flex pl-8 h-16 justify-start items-center ">
-        <div className="text-sm h-full">Select other booster packs</div>
+        <div className="text-sm">Select other booster packs</div>
         <Image
           src={ChevronRight}
           alt="right arrow icon"
@@ -48,13 +48,17 @@ export const PackPageFooter: React.FC<{
             return (
               <div className="flex flex-col items-center" key={idx}>
                 <div className="h-[75px] flex items-center justify-center rounded-full border-2 w-[400px] mb-4 shadow-[5px_10px_15px_rgba(0,0,0,0.5)]">
-                  <Image
-                    src={`${cardSet.logo}.png`}
-                    alt="card expansion logo"
-                    width={120}
-                    height={30}
-                    style={{ width: '100px', height: 'auto' }}
-                  />
+                  {cardSet.logo ? (
+                    <Image
+                      src={`${cardSet.logo}.png`}
+                      alt="card expansion logo"
+                      width={120}
+                      height={30}
+                      style={{ width: '100px', height: 'auto' }}
+                    />
+                  ) : (
+                    <div>{cardSet.name}</div>
+                  )}
                 </div>
                 {cardSet.packs.length ? (
                   <div className="flex justify-evenly gap-4">
@@ -113,7 +117,7 @@ export const PackPageFooter: React.FC<{
   };
 
   return (
-    <div className="grid grid-cols-9 place-items-center w-full pb-8 overflow-x-hidden">
+    <div className="grid grid-cols-9 place-items-center w-full pb-8 pt-3 overflow-x-hidden">
       <div className="text-sm col-start-2 col-end-4 cursor-not-allowed px-5 py-3 flex justify-center items-center rounded-full bg-white shadow-[5px_10px_25px_rgba(0,0,0,0.5)] overflow-hidden text-wrap">
         Offering rates
       </div>
